@@ -4,7 +4,7 @@ using UnityEngine;
 
 enum state : int
 {
-    idle = 0, run = 1, attack = 2, clim = 3
+    idle = 0, run = 1, attack = 2, beAttacked = 3,dead=4
 }
 enum colli : int
 {
@@ -37,51 +37,59 @@ public class Player : MonoBehaviour
 
     void FixedUpdate()
     {
-        PlayerRd.velocity = new Vector3(0f, 0, 0f);
-        //if (health <= 0.0f)
-        //{
-        //    //print ("dead");
-        //}
-        float h = Input.GetAxis("Horizontal");
-        float v = Input.GetAxis("Vertical");
-        if (!h.Equals(0))
+        if (!GameManager._instance.isPaused)
         {
-            int curDirection = h > 0 ? 0 : 1;
-            if (curDirection != preDirection)
-                turnDirection(curDirection);
-            int t = h > 0 ? 1 : -1;
-            PlayerRd.velocity = new Vector3(MoveSpeed * t, 0, PlayerRd.velocity.z);//速度
-            playerState = state.run;
-        }
-        else if (!v.Equals(0))
-        {
-            int t = v > 0 ? 1 : -1;
-            PlayerRd.velocity = new Vector3(PlayerRd.velocity.x, 0, MoveSpeed * t);
-            playerState = state.run;
-        }
-        else if (Input.GetMouseButtonDown(1))
-        {
-            playerState = state.attack;
-        }
-        else
-            playerState = state.idle;
+            PlayerRd.velocity = new Vector3(0f, 0, 0f);
+            float h = Input.GetAxis("Horizontal");
+            float v = Input.GetAxis("Vertical");
+            if (!h.Equals(0))
+            {
+                int curDirection = h > 0 ? 0 : 1;
+                if (curDirection != preDirection)
+                    turnDirection(curDirection);
+                int t = h > 0 ? 1 : -1;
+                PlayerRd.velocity = new Vector3(MoveSpeed * t, 0, PlayerRd.velocity.z);//速度
+                playerState = state.run;
+            }
+            else if (!v.Equals(0))
+            {
+                int t = v > 0 ? 1 : -1;
+                PlayerRd.velocity = new Vector3(PlayerRd.velocity.x, 0, MoveSpeed * t);
+                playerState = state.run;
+            }
+            else if (Input.GetMouseButtonDown(1))
+            {
+                playerState = state.attack;
+            }
+            else
+                playerState = state.idle;
 
-        switch (playerState)
-        {
-            case state.idle:
-                animator.SetInteger("state", 0);
-                break;
-            case state.run:
-                animator.SetInteger("state", 1);
-                break;
-            case state.attack:
-                animator.SetInteger("state", 2);
-                break;
-            default:
-                animator.SetInteger("state", 0);
-                break;
+            switch (playerState)
+            {
+                case state.idle:
+                    animator.SetInteger("state", 0);
+                    break;
+                case state.run:
+                    animator.SetInteger("state", 1);
+                    break;
+                case state.attack:
+                    animator.SetInteger("state", 2);
+                    break;
+                default:
+                    animator.SetInteger("state", 0);
+                    break;
 
+            }
+            if (health <= 0.0f)
+            {
+                //Debug.Log("aaaa");
+                animator.SetInteger("state", 4);
+                GameManager._instance.isPaused = true;
+                //new WaitForSeconds(4);
+                //Time.timeScale = 0;
+            }
         }
+
 
     }
     private float calculateDamage()

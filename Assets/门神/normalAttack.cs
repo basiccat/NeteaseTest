@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class normalAttack : MonoBehaviour {
 
-	public float playerDamage = 10;
+	public float playerDamage;
 	public bool isAttacking = false;
 	// Use this for initialization
 	void Start () {

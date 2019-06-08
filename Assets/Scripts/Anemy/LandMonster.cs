@@ -29,15 +29,19 @@ public class LandMonster : Monster
     // Update is called once per frame
     void Update()
     {
-        if (angryValue > angryValueBoarder)
+        if (!GameManager._instance.isPaused)
         {
-            chaseAndAttackPlayer();
+            if (angryValue > angryValueBoarder)
+            {
+                chaseAndAttackPlayer();
+            }
+            else
+            {
+                //怒气值没有上升到阈值，冷静的向着城门进攻
+                AttackDoor();
+            }
         }
-        else
-        {
-            //怒气值没有上升到阈值，冷静的向着城门进攻
-            AttackDoor();
-        }
+
     }
 
     /*追踪玩家,到达指定位置进行攻击*/

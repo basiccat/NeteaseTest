@@ -20,17 +20,16 @@ class JsonObject
 }
 public class GameManager : MonoBehaviour {
 
+    public static GameManager _instance;
     public bool isPaused;
     public GameObject myMenu;
     public GameObject Player;
     public GameObject Door;
 	public GameObject[] Monsters;
 	JsonData waves;
-
 	Vector3 pos =new Vector3(9.5f, 0.0f, 15.0f);
 	Quaternion rot = Quaternion.Euler(0, 180, 0);
-
-
+    
 	IEnumerator CreateMethod()
 	{
 		//对于n波怪物
@@ -69,8 +68,12 @@ public class GameManager : MonoBehaviour {
 			
 		
 	}
-	// Use this for initialization
-	void Start () {
+    private void Awake()
+    {
+        _instance = this;
+    }
+    // Use this for initialization
+    void Start () {
 		
 	}
 	

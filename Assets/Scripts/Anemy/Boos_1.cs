@@ -113,94 +113,97 @@ public class Boos_1 : LandMonster
     // Update is called once per frame
     void Update()
     {
-        //Debug.Log(skillStatus);
-        switch (skillStatus)
+        if (!GameManager._instance.isPaused)
         {
-            case SkillStatus.Ready:
-                {
-                    //如果当前没有施放技能，则根据当前状态选择技能
-                    float distance = caculateTheDistance();
-                    float choose = Random.Range(0.0f, 1.0f);
-                    if (distance < Near)
+            switch (skillStatus)
+            {
+                case SkillStatus.Ready:
                     {
-                        //就在Player附近
+                        //如果当前没有施放技能，则根据当前状态选择技能
+                        float distance = caculateTheDistance();
+                        float choose = Random.Range(0.0f, 1.0f);
+                        if (distance < Near)
+                        {
+                            //就在Player附近
 
-                        if (choose < 0.2f)
+                            if (choose < 0.2f)
+                            {
+                                //使用喷射火焰
+                                projectFire();
+                            }
+                            else
+                            {
+                                //普通攻击
+                                attack();
+                            }
+                        }
+                        else if (distance < Close)
                         {
-                            //使用喷射火焰
-                            projectFire();
+                            //中等距离                        
+                            if (choose < 0.5f)
+                            {
+                                //使用喷射火焰
+                                projectFire();
+                            }
+                            else
+                            {
+                                //冲刺攻击
+                                dashAttack();
+                            }
+                        }
+                        else if (distance < Far)
+                        {
+                            //较远距离                        
+                            if (choose < 0.6f)
+                            {
+                                //喷射火焰
+                                dashAttack();
+                            }
+                            else
+                            {
+                                //使用喷射火焰
+                                projectFire();
+                            }
                         }
                         else
                         {
-                            //普通攻击
-                            attack();
+                            //非常遥远                                                
+                            if (choose < 0.9f)
+                            {
+                                //冲刺攻击
+                                dashAttack();
+                            }
+                            else
+                            {
+                                //使用喷射火焰
+                                projectFire();
+                            }
                         }
+                        break;
                     }
-                    else if (distance < Close)
+                case SkillStatus.Busy:
                     {
-                        //中等距离                        
-                        if (choose < 0.5f)
-                        {
-                            //使用喷射火焰
-                            projectFire();
-                        }
-                        else
-                        {
-                            //冲刺攻击
-                            dashAttack();
-                        }
+                        chaseAndAttackPlayer();
+                        break;
                     }
-                    else if (distance < Far)
+                case SkillStatus.DashAttack:
                     {
-                        //较远距离                        
-                        if (choose < 0.6f)
-                        {
-                            //喷射火焰
-                            dashAttack();
-                        }
-                        else
-                        {
-                            //使用喷射火焰
-                            projectFire();
-                        }
+                        dashAttack();
+                        break;
                     }
-                    else
+                case SkillStatus.Attack:
                     {
-                        //非常遥远                                                
-                        if (choose < 0.9f)
-                        {
-                            //冲刺攻击
-                            dashAttack();
-                        }
-                        else
-                        {
-                            //使用喷射火焰
-                            projectFire();
-                        }
+                        attack();
+                        break;
                     }
-                    break;
-                }
-            case SkillStatus.Busy:
-                {
-                    chaseAndAttackPlayer();
-                    break;
-                }
-            case SkillStatus.DashAttack:
-                {
-                    dashAttack();
-                    break;
-                }
-            case SkillStatus.Attack:
-                {
-                    attack();
-                    break;
-                }
-            case SkillStatus.ProjectFire:
-                {
-                    projectFire();
-                    break;
-                }
+                case SkillStatus.ProjectFire:
+                    {
+                        projectFire();
+                        break;
+                    }
+            }
         }
+        
     }
 
     /*计算与玩家的直线距离*/

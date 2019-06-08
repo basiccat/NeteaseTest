@@ -19,23 +19,28 @@ public class FuManager : MonoBehaviour {
     }
     // Use this for initialization
     void Start () {
+        
         InvokeRepeating("activateSkills", 2.0f, 3.0f);
         //activateSkills();
     }
     private void activateSkills()
     {
-        int index = Random.Range(0, skills.Length);
-        activeSkill = skills[index];
-        //activeSkill.SetActive(true);
-        GameObject newSkills = GameObject.Instantiate(activeSkill,transform.position,Quaternion.identity,transform);
-        //若是碰撞体即继续设置enable
-        newSkills.SetActive(true);
-        currentSkillsNum++;
-        Debug.Log(currentSkillsNum);
-        if (currentSkillsNum == skillsNumToSave)
+        if (!GameManager._instance.isPaused)
         {
-            CancelInvoke();
+            int index = Random.Range(0, skills.Length);
+            activeSkill = skills[index];
+            //activeSkill.SetActive(true);
+            GameObject newSkills = GameObject.Instantiate(activeSkill, transform.position, Quaternion.identity, transform);
+            //若是碰撞体即继续设置enable
+            newSkills.SetActive(true);
+            currentSkillsNum++;
+            Debug.Log(currentSkillsNum);
+            if (currentSkillsNum == skillsNumToSave)
+            {
+                CancelInvoke();
+            }
         }
+        
         //newSkills.transform.Translate(Vector3.left * Time.deltaTime, Space.World);
 
     }

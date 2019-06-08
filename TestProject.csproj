@@ -262,7 +262,6 @@
     <Compile Include="Assets\Anima2D\Scripts\SpriteMesh.cs" />
     <Compile Include="Assets\Anima2D\Scripts\SpriteMeshAnimation.cs" />
     <Compile Include="Assets\Anima2D\Scripts\SpriteMeshInstance.cs" />
-    <Compile Include="Assets\Free Asset - 2D Handcrafted Art\Scripts\CamerController.cs" />
     <Compile Include="Assets\Scripts\Anemy\Boos_1.cs" />
     <Compile Include="Assets\Scripts\Anemy\enemy.cs" />
     <Compile Include="Assets\Scripts\Anemy\Flame.cs" />

@@ -21,32 +21,39 @@ public class FuAction : MonoBehaviour, IPointerDownHandler
 	
 	// Update is called once per frame
 	void Update () {
-       
-        if (transform.position.x > FuManager._instance.left)
+        if (!GameManager._instance.isPaused)
         {
-            //Debug.Log(transform.position.x);
-            transform.Translate(Vector3.left * Time.deltaTime * speed, Space.World);
+            if (transform.position.x > FuManager._instance.left)
+            {
+                //Debug.Log(transform.position.x);
+                transform.Translate(Vector3.left * Time.deltaTime * speed, Space.World);
+            }
+            else
+            {
+                speed = 0;
+            }
         }
-        else
-        {
-            speed = 0;
-        }
+
         //Debug.Log(speed);
 	}
 
 
     public void OnPointerDown(PointerEventData eventData)
     {
-        //Debug.Log(gameObject.name);
-        inistateObj.SetActive(true);
-        SelectObjManager.Instance.AttachNewObject(inistateObj);
-        FuManager._instance.resetSkillSpeed(gameObject);
-        Destroy(gameObject);
-        FuManager._instance.currentSkillsNum -= 1;
-        //Debug.Log(speed);
-        float fuck = FuManager._instance.skillsNumToSave - FuManager._instance.currentSkillsNum;
-        //Debug.Log(speed);
-        FuManager._instance.Invoke("activateSkills", fuck * 3.0f);
+        if (!GameManager._instance.isPaused)
+        {
+            //Debug.Log(gameObject.name);
+            inistateObj.SetActive(true);
+            SelectObjManager.Instance.AttachNewObject(inistateObj);
+            FuManager._instance.resetSkillSpeed(gameObject);
+            Destroy(gameObject);
+            FuManager._instance.currentSkillsNum -= 1;
+            //Debug.Log(speed);
+            float fuck = FuManager._instance.skillsNumToSave - FuManager._instance.currentSkillsNum;
+            //Debug.Log(speed);
+            FuManager._instance.Invoke("activateSkills", fuck * 3.0f);
+        }
+        
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
