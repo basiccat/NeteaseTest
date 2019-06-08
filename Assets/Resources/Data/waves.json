@@ -1,0 +1,32 @@
+{
+  "waves": [
+    {
+      "monster": [
+
+        {
+          "type": 0,
+          "posx": 9,
+          "posy": 0,
+          "posz": 15,
+          "rot": 180
+        },
+        {
+          "type": 0,
+          "posx": 5,
+          "posy": 0,
+          "posz": 15,
+          "rot": 180
+        },
+        {
+          "type": 1,
+          "posx": 9,
+          "posy": 0,
+          "posz": 20,
+          "rot": 180
+        }
+      ],
+      "time": 10 
+    } 
+  ]
+}
+

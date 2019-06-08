@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<dialogues>
+    <dialogue>
+        <role>阿伟：</role>
+        <detail>此处阴风大作，杳无人烟。
+此等是非之地，还是早点离开为宜。</detail>
+    </dialogue>
+    <dialogue>
+        <role>Monster：</role>
+        <detail>哦？
+哪里来的小哥，我家房子很大，你要不要来康康？</detail>
+    </dialogue>
+</dialogues>
