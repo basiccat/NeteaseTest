@@ -49,7 +49,16 @@ public class Player : MonoBehaviour
             PlayerRd.velocity = new Vector3(0f, 0, 0f);
             float h = Input.GetAxis("Horizontal");
             float v = Input.GetAxis("Vertical");
-            if (!h.Equals(0))
+			if (!h.Equals (0) && !v.Equals (0)) {
+				int curDirection = h > 0 ? 0 : 1;
+				if (curDirection != preDirection)
+					turnDirection(curDirection);
+				int ht = h > 0 ? 1 : -1;
+				int vt=v > 0 ? 1 : -1;
+				PlayerRd.velocity = new Vector3(MoveSpeed * ht, 0, MoveSpeed * vt);
+				playerState = state.run;
+			}
+            else if (!h.Equals(0))
             {
                 int curDirection = h > 0 ? 0 : 1;
                 if (curDirection != preDirection)

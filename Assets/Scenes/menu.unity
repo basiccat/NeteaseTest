@@ -412,8 +412,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 432794703}
-        m_MethodName: OnButtonClick
+      - m_Target: {fileID: 576476125}
+        m_MethodName: selectLevel
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -502,6 +502,8 @@ MonoBehaviour:
   Player: {fileID: 0}
   Door: {fileID: 0}
   Monsters: []
+  backgroundSlider: {fileID: 0}
+  voiceSlider: {fileID: 0}
 --- !u!4 &576476126
 Transform:
   m_ObjectHideFlags: 0

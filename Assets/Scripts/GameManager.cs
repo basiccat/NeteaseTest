@@ -131,6 +131,10 @@ public class GameManager : MonoBehaviour {
     {
         SceneManager.LoadScene("Menu");
     }
+    public void selectLevel()
+    {
+        SceneManager.LoadScene("choose");
+    }
     public void quitGame()
     {
         Application.Quit();
