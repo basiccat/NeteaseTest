@@ -13,25 +13,32 @@ public class Boos_1 : LandMonster
 
     private string ProjectFireAnimStateName = "ProjectFire";
     private string ProjectFireAnimParameter = "projectFire";
+    private string ProjectFirePoseAnimStateName = "ProjectFirePose";    
 
     private string DashAnimStateName = "Dash";
     private string DashAnimParameter = "dash";
-
     private string DashPoseAnimStateName = "DashPose";
     private string DashPoseAnimParameter = "dashPose";
-
     private string DashAttackAnimStateName = "DashAttack";
 
-    public GameObject FlameObject;
+    private string FireExplosionAnimStateName = "FireExplosion";
+    private string FireExplosionAnimParameter = "fireExplode";
+    private string FireExplosionPoseAnimStateName = "FireExplosionPose";    
+
+    public GameObject FlameObjectTemplate;
     public float FlameSpawnOffsetX = 5.0f;
     public float ProjectFlameWidth = 3.0f;
+    
+    public float DashSpeed = 0.05f;
+
+    public GameObject FireExplosionTemplate;
+    public GameObject FireBallSpawnPositionObject;    
+    public int FireBallCount = 1;
 
     public float AttackCD = 2.0f;
     public float ProjectFireCD = 2.0f;
     public float DashAttackCD = 2.0f;
-
-    public float DashSpeed = 0.05f;
-
+    public float FireExplosionCD=2.0f;
     /*************内部实现变量****************/
 
     //技能形态
@@ -41,7 +48,8 @@ public class Boos_1 : LandMonster
         Busy,
         Attack,
         DashAttack,
-        ProjectFire
+        ProjectFire,
+        FireExplosion
     }
 
     //普通攻击的状态机
@@ -58,6 +66,7 @@ public class Boos_1 : LandMonster
         Chasing,
         StopMoving,
         StartProjecting,
+        ProjectingPose,
         StopProjecting
     }
 
@@ -68,6 +77,15 @@ public class Boos_1 : LandMonster
         StartDashing,
         Dashing,
         StopDashing
+    }
+
+    //冲刺攻击的状态机
+    private enum FireExplosionStatus
+    {
+        StopMoving,
+        StartingExploding,  
+        FireExplodingPose,
+        StopExplosion
     }
 
     //当前的技能状态
@@ -85,7 +103,11 @@ public class Boos_1 : LandMonster
     private DashAtackStatus dashAttackStatus = DashAtackStatus.StopMoving; //冲刺攻击的状态机，初始状态为冲向玩家位置
     private Vector3 dashPosition;    //冲向的位置
 
-
+    //火焰爆发相关
+    private FireExplosionStatus fireExplosionStatus = FireExplosionStatus.StopMoving; //冲刺攻击的状态机，初始状态为冲向玩家位置    
+    private bool isFireExplode = false;
+    private Transform FireBallSpawnPosition;
+    
     /**************函数****************/
     // Use this for initialization
     void Start()
@@ -98,12 +120,14 @@ public class Boos_1 : LandMonster
         DoorObject = GameManager.Door;
         Door = DoorObject.GetComponent<Door>();
 
+        FireBallSpawnPosition = FireBallSpawnPositionObject.GetComponent<Transform>();        
         /*自身属性赋值*/
         MonsterAnimator = GetComponent<Animator>();
         MonsterTransform = GetComponent<Transform>();
 
 
         //设定boss的动画状态机信息
+
         attackAnimStateName = "Attack"; //普通攻击的动画状态的名字
         attackAnimParemeter = "attack"; //普通攻击的动画参数的名字
         moveAnimStateName = "Move"; //移动的动画状态的名字
@@ -115,95 +139,200 @@ public class Boos_1 : LandMonster
     {
         if (!GameManager._instance.isPaused)
         {
-            switch (skillStatus)
+            if (angryValue < angryValueBoarder)
             {
-                case SkillStatus.Ready:
-                    {
-                        //如果当前没有施放技能，则根据当前状态选择技能
-                        float distance = caculateTheDistance();
-                        float choose = Random.Range(0.0f, 1.0f);
-                        if (distance < Near)
+                //未发怒状态            
+                switch (skillStatus)
+                {
+                    case SkillStatus.Ready:
                         {
-                            //就在Player附近
+                            //如果当前没有施放技能，则根据当前状态选择技能
+                            float distance = caculateTheDistance();
+                            float choose = Random.Range(0.0f, 1.0f);
+                            if (distance < Near)
+                            {
+                                //就在Player附近
 
-                            if (choose < 0.2f)
+                                if (choose < 0.2f)
+                                {
+                                    //使用喷射火焰
+                                    projectFire();
+                                }
+                                else
+                                {
+                                    //普通攻击
+                                    attack();
+                                }
+                            }
+                            else if (distance < Close)
                             {
-                                //使用喷射火焰
-                                projectFire();
+                                //中等距离                        
+                                if (choose < 0.5f)
+                                {
+                                    //使用喷射火焰
+                                    projectFire();
+                                }
+                                else
+                                {
+                                    //冲刺攻击
+                                    dashAttack();
+                                }
+                            }
+                            else if (distance < Far)
+                            {
+                                //较远距离                        
+                                if (choose < 0.6f)
+                                {
+                                    //喷射火焰
+                                    dashAttack();
+                                }
+                                else
+                                {
+                                    //使用喷射火焰
+                                    projectFire();
+                                }
                             }
                             else
                             {
-                                //普通攻击
-                                attack();
+                                //非常遥远                                                
+                                if (choose < 0.9f)
+                                {
+                                    //冲刺攻击
+                                    dashAttack();
+                                }
+                                else
+                                {
+                                    //使用喷射火焰
+                                    projectFire();
+                                }
                             }
+                            break;
                         }
-                        else if (distance < Close)
+                    case SkillStatus.Busy:
                         {
-                            //中等距离                        
-                            if (choose < 0.5f)
-                            {
-                                //使用喷射火焰
-                                projectFire();
-                            }
-                            else
-                            {
-                                //冲刺攻击
-                                dashAttack();
-                            }
+                            chaseAndAttackPlayer();
+                            break;
                         }
-                        else if (distance < Far)
+                    case SkillStatus.DashAttack:
                         {
-                            //较远距离                        
-                            if (choose < 0.6f)
-                            {
-                                //喷射火焰
-                                dashAttack();
-                            }
-                            else
-                            {
-                                //使用喷射火焰
-                                projectFire();
-                            }
+                            dashAttack();
+                            break;
                         }
-                        else
+                    case SkillStatus.Attack:
                         {
-                            //非常遥远                                                
-                            if (choose < 0.9f)
+                            attack();
+                            break;
+                        }
+                    case SkillStatus.ProjectFire:
+                        {
+                            projectFire();
+                            break;
+                        }
+                }
+            }
+            else
+            {
+                //发怒状态            
+                switch (skillStatus)
+                {
+                    case SkillStatus.Ready:
+                        {
+                            //如果当前没有施放技能，则根据当前状态选择技能
+                            float distance = caculateTheDistance();
+                            float choose = Random.Range(0.0f, 1.0f);
+                            if (distance < Near)
                             {
-                                //冲刺攻击
-                                dashAttack();
+                                //就在Player附近
+
+                                if (choose < 0.2f)
+                                {
+                                    //使用喷射火焰
+                                    projectFire();
+                                }
+                                else
+                                {
+                                    //普通攻击
+                                    attack();
+                                }
+                            }
+                            else if (distance < Close)
+                            {
+                                ////中等距离                        
+                                //if (choose < 0.5f)
+                                //{
+                                //    //使用喷射火焰
+                                //    dashAttack();
+                                //}
+                                //else if(choose<0.7f)
+                                //{
+                                //    //冲刺攻击
+                                //    projectFire();
+                                //}
+                                //else
+                                {
+                                    //火焰爆发
+                                    fireExplosion();
+                                }
+                            }
+                            else if (distance < Far)
+                            {
+                                //较远距离                        
+                                if (choose < 0.6f)
+                                {
+                                    //喷射火焰
+                                    dashAttack();
+                                }
+                                else
+                                {
+                                    //使用喷射火焰
+                                    projectFire();
+                                }
                             }
                             else
                             {
-                                //使用喷射火焰
-                                projectFire();
+                                //非常遥远                                                
+                                if (choose < 0.9f)
+                                {
+                                    //冲刺攻击
+                                    dashAttack();
+                                }
+                                else
+                                {
+                                    //使用喷射火焰
+                                    projectFire();
+                                }
                             }
+                            break;
                         }
-                        break;
-                    }
-                case SkillStatus.Busy:
-                    {
-                        chaseAndAttackPlayer();
-                        break;
-                    }
-                case SkillStatus.DashAttack:
-                    {
-                        dashAttack();
-                        break;
-                    }
-                case SkillStatus.Attack:
-                    {
-                        attack();
-                        break;
-                    }
-                case SkillStatus.ProjectFire:
-                    {
-                        projectFire();
-                        break;
-                    }
+                    case SkillStatus.Busy:
+                        {
+                            chaseAndAttackPlayer();
+                            break;
+                        }
+                    case SkillStatus.DashAttack:
+                        {
+                            dashAttack();
+                            break;
+                        }
+                    case SkillStatus.Attack:
+                        {
+                            attack();
+                            break;
+                        }
+                    case SkillStatus.ProjectFire:
+                        {
+                            projectFire();
+                            break;
+                        }
+                    case SkillStatus.FireExplosion:
+                        {
+                            fireExplosion();
+                            break;
+                        }
+                }
             }
         }
-        
+
     }
 
     /*计算与玩家的直线距离*/
@@ -237,7 +366,7 @@ public class Boos_1 : LandMonster
                 case AttackStatus.StopMoving:
                     {
                         //正在从跑步状态返回Idle状态
-                        if (AnimatorStateInfo.IsName("Idle"))
+                        if (AnimatorStateInfo.IsName(IdleAnimStateName))
                         {
                             //成功回到Idle状态
                             attackStatus = AttackStatus.StartAttacking; //开始从Idle状态变成进攻
@@ -258,7 +387,7 @@ public class Boos_1 : LandMonster
                 case AttackStatus.StopAttacking:
                     {
                         //正在从攻击状态变成Idle状态
-                        if (AnimatorStateInfo.IsName("Idle"))
+                        if (AnimatorStateInfo.IsName(IdleAnimStateName))
                         {
                             //成功回到idle状态，完成普通攻击
                             attackStatus = AttackStatus.StopMoving;  //reset状态
@@ -272,7 +401,7 @@ public class Boos_1 : LandMonster
     }
 
     /*冲刺爪击*/
-    protected void dashAttack()
+    private void dashAttack()
     {
         //Debug.Log(dashAttackStatus);
         if (skillStatus != SkillStatus.DashAttack)
@@ -288,7 +417,7 @@ public class Boos_1 : LandMonster
             {
                 case DashAtackStatus.StopMoving:
                     {
-                        if (AnimatorStateInfo.IsName("Idle"))
+                        if (AnimatorStateInfo.IsName(IdleAnimStateName))
                         {
                             //成功回到Idle状态
                             dashAttackStatus = DashAtackStatus.StartDashing;
@@ -394,7 +523,7 @@ public class Boos_1 : LandMonster
                     }
                 case DashAtackStatus.StopDashing:
                     {
-                        if (AnimatorStateInfo.IsName("Idle"))
+                        if (AnimatorStateInfo.IsName(IdleAnimStateName))
                         {
                             //成功播放完攻击动画，回到Idle状态
                             dashAttackStatus = DashAtackStatus.StopMoving; //reset状态
@@ -408,7 +537,7 @@ public class Boos_1 : LandMonster
     }
 
     /*喷射火焰*/
-    protected void projectFire()
+    private void projectFire()
     {
         if (skillStatus != SkillStatus.ProjectFire)
         {
@@ -422,6 +551,7 @@ public class Boos_1 : LandMonster
             {
                 case ProjectFireStatus.Chasing:
                     {
+                        //怪物会先再z轴方向上追踪玩家
                         Vector3 playerPosition = PlayerObject.GetComponent<Transform>().position;
                         float zOffset = playerPosition.z - MonsterTransform.position.z;
                         if (Mathf.Abs(zOffset) < ProjectFlameWidth)
@@ -450,7 +580,7 @@ public class Boos_1 : LandMonster
 
                 case ProjectFireStatus.StopMoving:
                     {
-                        if (AnimatorStateInfo.IsName("Idle"))
+                        if (AnimatorStateInfo.IsName(IdleAnimStateName))
                         {
                             //已经回到Idle状态
                             projectFireStatus = ProjectFireStatus.StartProjecting;
@@ -463,7 +593,15 @@ public class Boos_1 : LandMonster
                         if (AnimatorStateInfo.IsName(ProjectFireAnimStateName))
                         {
                             //已经开始播放喷火动画
-                            projectFireStatus = ProjectFireStatus.StopProjecting;
+                            projectFireStatus = ProjectFireStatus.ProjectingPose;                            
+                        }
+                        break;
+                    }
+                case ProjectFireStatus.ProjectingPose:
+                    {
+                        if(AnimatorStateInfo.IsName(ProjectFirePoseAnimStateName))
+                        {
+                            //正在保持生成火焰的姿势
                             if (!isFireSpawn)
                             {
                                 //还没生成火焰,则在Boss身前生成一个火焰球       
@@ -471,16 +609,18 @@ public class Boos_1 : LandMonster
                                 SpawnPosition.x = direction ? (MonsterTransform.position.x + -1.0f * FlameSpawnOffsetX) : (MonsterTransform.position.x + FlameSpawnOffsetX);
 
                                 Quaternion SpawnDirection = direction ? Quaternion.Euler(0, -180, 0) : Quaternion.Euler(0, 0, 0);
-                                SpawnedFlame = GameObject.Instantiate(FlameObject, SpawnPosition, SpawnDirection);
+                                SpawnedFlame = GameObject.Instantiate(FlameObjectTemplate, SpawnPosition, SpawnDirection);
                                 SpawnedFlame.SetActive(true);
                                 isFireSpawn = true;
+                                projectFireStatus = ProjectFireStatus.StopProjecting;
                             }
+                            
                         }
                         break;
                     }
                 case ProjectFireStatus.StopProjecting:
                     {
-                        if (AnimatorStateInfo.IsName("Idle"))
+                        if (AnimatorStateInfo.IsName(IdleAnimStateName))
                         {
                             //已经停下了喷射火焰的动作
                             Destroy(SpawnedFlame);
@@ -496,6 +636,106 @@ public class Boos_1 : LandMonster
         }
 
     }
+
+    //火焰爆发
+    private void fireExplosion()
+    {
+        if (skillStatus != SkillStatus.FireExplosion)
+        {
+            //开始执行火焰爆发动画
+            skillStatus = SkillStatus.FireExplosion;
+            MonsterAnimator.SetBool(moveAnimParameter, false);
+        }
+        else
+        {
+            AnimatorStateInfo AnimatorStateInfo = MonsterAnimator.GetCurrentAnimatorStateInfo(0); //储存当前的动画状态            
+            switch (fireExplosionStatus)
+            {
+                case FireExplosionStatus.StopMoving:
+                    {
+                        if(AnimatorStateInfo.IsName(IdleAnimStateName))
+                        {
+                            //已经回到了Idle状态
+                            fireExplosionStatus = FireExplosionStatus.StartingExploding;
+                            MonsterAnimator.SetTrigger(FireExplosionAnimParameter);
+                        }
+                        break;
+                    }
+                case FireExplosionStatus.StartingExploding:
+                    {
+                        if(AnimatorStateInfo.IsName(FireExplosionAnimStateName))
+                        {
+                            //已经开始做动画了
+                            fireExplosionStatus = FireExplosionStatus.FireExplodingPose;
+                        }
+                        break;
+                    }
+                case FireExplosionStatus.FireExplodingPose:
+                    {
+
+                        if (AnimatorStateInfo.IsName(FireExplosionPoseAnimStateName))
+                        {
+                            //开始生成火球
+                            fireExplosionStatus = FireExplosionStatus.StopExplosion;
+                            if (!isFireExplode)
+                            {
+                                //保持生成火球的姿势，如果还没有生成火球，则以当前boss位置为中心，生成火球
+                                for (int i = 0; i < FireBallCount; i++)
+                                {
+                                    GameObject FireBallObjectSpawned = GameObject.Instantiate(FireExplosionTemplate, FireBallSpawnPosition.position, FireBallSpawnPosition.rotation);
+                                    FireBallObjectSpawned.SetActive(true);
+                                    FireBall fireBall = FireBallObjectSpawned.GetComponent<FireBall>();
+
+                                    //贝塞尔弧线式喷发
+                                    //Vector3 startPosition = FireBallSpawnPosition.position;
+                                    //Quaternion startRotation = FireBallSpawnPosition.rotation;
+                                    //fireBall.setStartPosition(startPosition);
+
+                                    //Transform airPosition = FireBallSpawnPosition;
+                                    //float radius = Random.Range(0.0f, FireBallSpawnRadius);
+                                    //float rotation = Random.Range(0.0f, 360.0f);
+                                    //airPosition.Rotate(0.0f, rotation, 0.0f);
+                                    //airPosition.Translate(radius, 5.0f, 0.0f);
+                                    //fireBall.setAirPosition(airPosition.position);
+
+                                    //Transform groundPosition = airPosition;
+                                    //Vector3 translator = new Vector3(0.0f, FireBallDestroyPosition.position.y - groundPosition.position.y, 0.0f);
+                                    //groundPosition.Translate(translator);
+                                    //fireBall.setGroundPosition(groundPosition.position);
+
+                                    //FireBallSpawnPosition.position = startPosition;
+                                    //FireBallSpawnPosition.rotation = startRotation;
+
+                                    float rotation = Random.Range(0.0f, 360.0f);
+                                    if(rotation>90.0f&&rotation<270.0f)
+                                    {
+                                        fireBall.setDirection(false);
+                                    }
+                                    fireBall.setEuler(rotation);                                    
+                                }
+                                isFireExplode = true;
+                            }
+                        }
+                        break;
+                    }
+                case FireExplosionStatus.StopExplosion:
+                    {
+                        isFireExplode = false;
+                        if (AnimatorStateInfo.IsName(IdleAnimStateName))
+                        {
+                            fireExplosionStatus = FireExplosionStatus.StopMoving;//重置状态机
+                            skillStatus = SkillStatus.Busy;
+                            StartCoroutine(recoverFromSkill(FireExplosionCD));
+                            break;
+                        }
+                        break;
+                    }
+            }
+            
+        }
+    }
+
+    
 
     //一定时间后恢复到可以释放技能的状态
     protected IEnumerator recoverFromSkill(float seconds)

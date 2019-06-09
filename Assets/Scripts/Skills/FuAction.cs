@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
-public class FuAction : MonoBehaviour, IPointerDownHandler
+public class FuAction : MonoBehaviour, IPointerDownHandler, IPointerEnterHandler,IPointerExitHandler
 {
     //写成public只为了让FuManager获取
     public float speed = 1;
@@ -10,6 +10,9 @@ public class FuAction : MonoBehaviour, IPointerDownHandler
     public GameObject inistatePrefab;
     //实例化后的对象
     private GameObject inistateObj;
+
+    public bool showMessage;
+    public string skillName;
     // Use this for initialization
     void Start () {
         if (inistatePrefab == null)
@@ -17,6 +20,7 @@ public class FuAction : MonoBehaviour, IPointerDownHandler
         //实例化预制
         inistateObj = Instantiate(inistatePrefab) as GameObject;
         inistateObj.SetActive(false);
+        showMessage = false;
     }
 	
 	// Update is called once per frame
@@ -70,6 +74,27 @@ public class FuAction : MonoBehaviour, IPointerDownHandler
         {
             speed = 0;
             //Debug.Log(collision.collider.GetComponent<FuAction>().speed);
+        }
+    }
+
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        showMessage = true;
+    }
+
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        showMessage = false;
+    }
+    void OnGUI()
+    {
+        if (showMessage)
+        {
+            GUIStyle style1 = new GUIStyle();
+            style1.fontSize = 30;
+            style1.normal.textColor = Color.red;
+            GUI.Label(new Rect(Input.mousePosition.x, Screen.height - Input.mousePosition.y, 400, 50), skillName, style1);
+
         }
     }
 }

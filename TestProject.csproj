@@ -262,21 +262,28 @@
     <Compile Include="Assets\Anima2D\Scripts\SpriteMesh.cs" />
     <Compile Include="Assets\Anima2D\Scripts\SpriteMeshAnimation.cs" />
     <Compile Include="Assets\Anima2D\Scripts\SpriteMeshInstance.cs" />
+    <Compile Include="Assets\ContinueGame.cs" />
+    <Compile Include="Assets\HealthBarTexture.cs" />
+    <Compile Include="Assets\pause.cs" />
+    <Compile Include="Assets\Quit.cs" />
     <Compile Include="Assets\Scripts\Anemy\Boos_1.cs" />
     <Compile Include="Assets\Scripts\Anemy\enemy.cs" />
+    <Compile Include="Assets\Scripts\Anemy\FireBall.cs" />
     <Compile Include="Assets\Scripts\Anemy\Flame.cs" />
     <Compile Include="Assets\Scripts\Anemy\LandMonster.cs" />
     <Compile Include="Assets\Scripts\Anemy\Monster.cs" />
-    <Compile Include="Assets\Scripts\Anemy\Player.cs" />
     <Compile Include="Assets\Scripts\Door.cs" />
     <Compile Include="Assets\Scripts\GameManager.cs" />
     <Compile Include="Assets\Scripts\ObjectCanBePause.cs" />
+    <Compile Include="Assets\Scripts\Player.cs" />
     <Compile Include="Assets\Scripts\ReadJson.cs" />
     <Compile Include="Assets\Scripts\ReadXml.cs" />
     <Compile Include="Assets\Scripts\Skills\FuAction.cs" />
     <Compile Include="Assets\Scripts\Skills\FuManager.cs" />
     <Compile Include="Assets\Scripts\Skills\SelectObjManager.cs" />
     <Compile Include="Assets\Scripts\Skills\skill.cs" />
+    <Compile Include="Assets\sound.cs" />
+    <Compile Include="Assets\start.cs" />
     <Compile Include="Assets\门神\normalAttack.cs" />
   </ItemGroup>
   <ItemGroup>

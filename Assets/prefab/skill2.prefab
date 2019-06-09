@@ -117,6 +117,8 @@ MonoBehaviour:
   speed: 100
   inistatePrefab: {fileID: 1076904470302868, guid: 2888df8ad422a904d93121ba73bd5a3e,
     type: 2}
+  showMessage: 0
+  skillName: "\u70B8"
 --- !u!222 &222538219364663764
 CanvasRenderer:
   m_ObjectHideFlags: 1

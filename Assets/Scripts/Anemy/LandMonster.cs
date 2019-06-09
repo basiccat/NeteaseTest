@@ -8,7 +8,7 @@ public class LandMonster : Monster
     protected string attackAnimParemeter = "SwordAttack"; //普通攻击的动画参数的名字
     protected string moveAnimStateName = "Run"; //移动的动画状态的名字
     protected string moveAnimParameter = "isRun"; //移动的动画参数的名字
-
+    protected string IdleAnimStateName = "Idle";
 
     // Use this for initialization
     void Start()

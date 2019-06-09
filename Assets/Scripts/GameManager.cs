@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 using LitJson;
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 struct MonsterAtATime
 {
@@ -26,6 +28,9 @@ public class GameManager : MonoBehaviour {
     public GameObject Player;
     public GameObject Door;
 	public GameObject[] Monsters;
+    public Slider backgroundSlider;
+    public Slider voiceSlider;
+
 	JsonData waves;
 	Vector3 pos =new Vector3(9.5f, 0.0f, 15.0f);
 	Quaternion rot = Quaternion.Euler(0, 180, 0);
@@ -96,10 +101,15 @@ public class GameManager : MonoBehaviour {
     }
 	// Update is called once per frame
 	private void Update () {
-        if (Input.GetKeyDown(KeyCode.Escape))
+        if (SceneManager.GetActiveScene().name == "FirstScene")
         {
-            Pause();
+            if (Input.GetKeyDown(KeyCode.Escape))
+            {
+                Pause();
+            }
+            gameObject.GetComponent<AudioSource>().volume = backgroundSlider.value;
         }
+
 	}
     private void unPause()
     {
@@ -111,5 +121,18 @@ public class GameManager : MonoBehaviour {
     public void continueGame()
     {
         unPause();
+    }
+
+   public void newGame()
+    {
+        SceneManager.LoadScene("FirstScene"); 
+    }
+    public void returnMain()
+    {
+        SceneManager.LoadScene("Menu");
+    }
+    public void quitGame()
+    {
+        Application.Quit();
     }
 }
