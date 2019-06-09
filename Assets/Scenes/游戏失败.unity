@@ -113,11 +113,6 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
---- !u!224 &39449292 stripped
-RectTransform:
-  m_PrefabParentObject: {fileID: 224684853972634588, guid: 658fa53d35e53f54d925be5c5696adeb,
-    type: 2}
-  m_PrefabInternal: {fileID: 1504562328}
 --- !u!1 &472040572
 GameObject:
   m_ObjectHideFlags: 0
@@ -265,7 +260,7 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_Children:
-  - {fileID: 39449292}
+  - {fileID: 1504562329}
   - {fileID: 1287968636}
   m_Father: {fileID: 0}
   m_RootOrder: 1
@@ -510,6 +505,10 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 658fa53d35e53f54d925be5c5696adeb, type: 2}
   m_IsPrefabParent: 0
+--- !u!4 &1504562329 stripped
+Transform:
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 1504562328}
 --- !u!1 &1572322468
 GameObject:
   m_ObjectHideFlags: 0

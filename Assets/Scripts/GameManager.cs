@@ -30,6 +30,8 @@ public class GameManager : MonoBehaviour {
 	public GameObject[] Monsters;
     public Slider backgroundSlider;
     public Slider voiceSlider;
+    public GameObject GameOver;
+    public GameObject Win;
 
 	JsonData waves;
 	Vector3 pos =new Vector3(9.5f, 0.0f, 15.0f);
@@ -101,7 +103,7 @@ public class GameManager : MonoBehaviour {
     }
 	// Update is called once per frame
 	private void Update () {
-        if (SceneManager.GetActiveScene().name == "FirstScene")
+        if (SceneManager.GetActiveScene().name == "FirstScene" && GameOver.activeSelf != true && Win.activeSelf!=true) 
         {
             if (Input.GetKeyDown(KeyCode.Escape))
             {

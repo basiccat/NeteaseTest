@@ -137,6 +137,7 @@ public class Boos_1 : LandMonster
     // Update is called once per frame
     void Update()
     {
+
         if (!GameManager._instance.isPaused)
         {
             if (angryValue < angryValueBoarder)

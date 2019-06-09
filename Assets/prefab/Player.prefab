@@ -20,7 +20,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4337535085473762}
   - component: {fileID: 212248946611431814}
-  - component: {fileID: 114484973062592164}
   - component: {fileID: 114185506556099052}
   - component: {fileID: 95141614638976460}
   - component: {fileID: 54251234216452794}
@@ -102,22 +101,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GamePlayer: {fileID: 0}
   health: 100
---- !u!114 &114484973062592164
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1140749519416860}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bc0ddb979c1db8b4caf7c4811a108c93, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  MoveSpeed: 7
-  JumpHeight: 0
-  playerDamage: 10
-  angel: 45
-  isAttacking: 0
+  HpStrip: {fileID: 0}
+  MoveSpeed: 0
 --- !u!212 &212248946611431814
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -160,5 +145,5 @@ SpriteRenderer:
   m_Size: {x: 0.33, y: 0.32}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0

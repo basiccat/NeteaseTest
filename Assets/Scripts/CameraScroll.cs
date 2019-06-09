@@ -58,7 +58,7 @@ public class CameraScroll : MonoBehaviour {
 		size = Mathf.Lerp(size, (minSize-0.01f), resumeSpeed * Time.deltaTime);
 		size = Mathf.Clamp(size, (minSize - 0.01f), 16f);//限定距离最小及最大值
 		gameObject.GetComponent<Camera>().orthographicSize = size;
-		Debug.Log(size);
+		//Debug.Log(size);
 	}
 
 	void ScrollView()//调用放大相机view大小
