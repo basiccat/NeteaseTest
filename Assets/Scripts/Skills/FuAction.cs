@@ -13,6 +13,7 @@ public class FuAction : MonoBehaviour, IPointerDownHandler, IPointerEnterHandler
 
     public bool showMessage;
     public string skillName;
+    public GameObject cam;//camera
     // Use this for initialization
     void Start () {
         if (inistatePrefab == null)

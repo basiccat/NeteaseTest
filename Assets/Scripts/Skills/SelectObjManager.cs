@@ -9,6 +9,7 @@ public class SelectObjManager : MonoBehaviour
     RaycastHit planePoint;//射线与地面的交点
     LayerMask mask = 1 << 8;//标记地面所处的图层
 
+    public GameObject cam;//camera
     private static SelectObjManager _instance;
     public static SelectObjManager Instance
     {
@@ -48,11 +49,20 @@ public class SelectObjManager : MonoBehaviour
             transform.position = target;//将新位置赋值
             */
             MoveCurrentPlaceObj();
+            //点击技能时，放大正交相机视口（见CameraScroll类
+            cam.GetComponent<CameraScroll>().scrollState(true);
         }
         else if (isDragging)
         {
             CheckIfPlaceSuccess();
+            ////视口放大后的复原
+            //if (cam.GetComponent<CameraScroll>().size > cam.GetComponent<CameraScroll>().minSize)
+            //{
+            //    cam.GetComponent<CameraScroll>().ResumeView();
+            //}
+            cam.GetComponent<CameraScroll>().scrollState(false);
         }
+       
     }
 
     /// <summary>

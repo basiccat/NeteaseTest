@@ -240,6 +240,7 @@ GameObject:
   - component: {fileID: 82695741}
   - component: {fileID: 82695740}
   - component: {fileID: 82695739}
+  - component: {fileID: 82695743}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -277,11 +278,11 @@ Camera:
     y: 0
     width: 1
     height: 1
-  near clip plane: 0.1
+  near clip plane: -41.02
   far clip plane: 100
   field of view: 54.8
   orthographic: 1
-  orthographic size: 8
+  orthographic size: 12
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -310,6 +311,21 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 13.634001, y: -11.337001, z: -1.32}
+--- !u!114 &82695743
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 82695738}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 670038997be8508428dc3245e88a4103, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  minSize: 6
+  maxSize: 15
+  scrollSpeed: 1.5
+  resumeSpeed: 5
 --- !u!1 &82914185
 GameObject:
   m_ObjectHideFlags: 0
@@ -1222,6 +1238,10 @@ Prefab:
         type: 2}
       propertyPath: angryValue
       value: 60
+      objectReference: {fileID: 0}
+    - target: {fileID: 1516893159136018, guid: 2d99a5fe1afee77409b9ba796c49b39a, type: 2}
+      propertyPath: m_TagString
+      value: Monster
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 2d99a5fe1afee77409b9ba796c49b39a, type: 2}
@@ -3016,6 +3036,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f49865939bff26469253b5f842441ec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cam: {fileID: 82695738}
   _zDistance: 50
   _scaleFactor: 1.2
   _groundLayerMask:
@@ -3348,7 +3369,7 @@ Transform:
   m_GameObject: {fileID: 1893300636}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 14.3, y: 0, z: 0}
-  m_LocalScale: {x: 8.239276, y: 9.17828, z: 7.4300284}
+  m_LocalScale: {x: 20, y: 1, z: 20}
   m_Children: []
   m_Father: {fileID: 2002342617}
   m_RootOrder: 3
@@ -3397,7 +3418,7 @@ MeshCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Convex: 0
+  m_Convex: 1
   m_CookingOptions: 14
   m_SkinWidth: 0.01
   m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
