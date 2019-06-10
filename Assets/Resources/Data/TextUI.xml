@@ -1,13 +1,50 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8" ?>
 <dialogues>
-    <dialogue>
-        <role>阿伟：</role>
-        <detail>此处阴风大作，杳无人烟。
-此等是非之地，还是早点离开为宜。</detail>
-    </dialogue>
-    <dialogue>
-        <role>Monster：</role>
-        <detail>哦？
-哪里来的小哥，我家房子很大，你要不要来康康？</detail>
-    </dialogue>
+    <level>
+        <dialogue>
+            <role>阿伟：</role>
+            <detail>
+此处阴风大作，杳无人烟。
+此等是非之地，还是早点离开为宜。
+            </detail>
+        </dialogue>
+        <dialogue>
+            <role>？？？：</role>
+            <detail>
+哦？ 哪里来的小哥，我家房子很大，你要不要来康康？
+            </detail>
+        </dialogue>
+    </level>
+    <level>
+        <dialogue>
+            <role>阿伟：</role>
+            <detail>
+你干什么! 你是谁!
+你叫什么名字!你这个人好奇怪哦!
+            </detail>
+        </dialogue>
+        <dialogue>
+            <role>杰哥：</role>
+            <detail>
+我常常来这里打游戏的，
+这里的人都叫我杰哥，
+我看你，还蛮结实的嘛。
+            </detail>
+        </dialogue>
+        <dialogue>
+            <role>阿伟：</role>
+            <detail>
+！！！ 妖孽休得放肆！
+我成军伟今天就要替天行道！
+            </detail>
+        </dialogue>
+        <dialogue>
+            <role>杰哥：</role>
+            <detail>什么……你就是……
+鼎鼎大名的C10坎特·16级5班名誉主席·熬夜的肝帝·
+软院卢冠廷·官方认证白学家·成军伟！
+那就让我康康，你到底有几斤几两！
+            </detail>
+        </dialogue>
+    </level>
 </dialogues>

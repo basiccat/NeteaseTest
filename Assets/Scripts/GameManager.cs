@@ -33,6 +33,8 @@ public class GameManager : MonoBehaviour {
     public GameObject GameOver;
     public GameObject Win;
     public float MonsterGTime;
+    public GameObject conversation;
+    public bool bossCome = false;
 
 	JsonData waves;
 	Vector3 pos =new Vector3(9.5f, 0.0f, 15.0f);
@@ -51,6 +53,7 @@ public class GameManager : MonoBehaviour {
 			Quaternion rot = Quaternion.Euler(0, 180, 0);
 			for (int m=0; m<monster.Count;m++ )
 			{
+
 				pos = new Vector3((float)monster[m]["posx"], (float)monster[m]["posy"], (float)monster[m]["posz"]);
 				rot = Quaternion.Euler(0, (int)monster[m]["rot"], 0);
 				switch ((int)monster[m]["type"])
@@ -63,8 +66,13 @@ public class GameManager : MonoBehaviour {
 						break;
 					case 1:
 						GameObject monster1Clone = (GameObject)GameObject.Instantiate(Monsters[1], pos, rot);
+                        //if(GameObject)
 						monster1Clone.SetActive(true);
+                        bossCome = true;
 						yield return new WaitForSeconds(MonsterGTime);
+                        //boss出现，开始对话
+                        conversation.SetActive(true);
+                        isPaused = true;
 						break;
 					default:
 						break;

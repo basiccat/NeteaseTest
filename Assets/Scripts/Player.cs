@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 enum state : int
 {
-    idle = 0, run = 1, attack = 2, beAttacked = 3, dead = 4
+    idle = 0, run = 1, attack = 2, beAttacked = 3,dead=4
 }
 enum colli : int
 {
@@ -21,8 +21,9 @@ public class Player : MonoBehaviour
     private Animator animator;
     private int preDirection;//默认往右走
     private Transform transformPlayer;
-
     private AudioSource playerAttackAudio;
+	private int HorizontalState=0;
+	private int verticalState=0;
 
     public Player GamePlayer;
     public float health = 100.0f;
@@ -49,29 +50,36 @@ public class Player : MonoBehaviour
             PlayerRd.velocity = new Vector3(0f, 0, 0f);
             float h = Input.GetAxis("Horizontal");
             float v = Input.GetAxis("Vertical");
-            if (!h.Equals(0) && !v.Equals(0))
-            {
-                int curDirection = h > 0 ? 0 : 1;
-                if (curDirection != preDirection)
-                    turnDirection(curDirection);
-                int ht = h > 0 ? 1 : -1;
-                int vt = v > 0 ? 1 : -1;
-                PlayerRd.velocity = new Vector3(MoveSpeed * ht, 0, MoveSpeed * vt);
-                playerState = state.run;
-            }
+			if (!h.Equals (0) && !v.Equals (0)) {
+				int curDirection = h > 0 ? 0 : 1;
+				if (curDirection != preDirection)
+					turnDirection(curDirection);
+				int ht = h > 0 ? 1 : -1;
+				int vt=v > 0 ? 1 : -1;
+				if ((HorizontalState == 1 && v > 0)||(HorizontalState == -1 && v < 0))
+					vt = 0;
+				if ((verticalState == 1 && h > 0) || (verticalState == -1 && h < 0))
+					ht = 0;
+				PlayerRd.velocity = new Vector3(MoveSpeed * ht, 0, MoveSpeed * vt);
+				playerState = state.run;
+			}
             else if (!h.Equals(0))
             {
                 int curDirection = h > 0 ? 0 : 1;
                 if (curDirection != preDirection)
                     turnDirection(curDirection);
                 int t = h > 0 ? 1 : -1;
-                PlayerRd.velocity = new Vector3(MoveSpeed * t, 0, PlayerRd.velocity.z);//速度
+				if ((verticalState == 1 && h > 0) || (verticalState == -1 && h < 0))
+					t = 0;
+				PlayerRd.velocity = new Vector3(MoveSpeed * t, 0, PlayerRd.velocity.z);//速度
                 playerState = state.run;
             }
             else if (!v.Equals(0))
             {
                 int t = v > 0 ? 1 : -1;
-                PlayerRd.velocity = new Vector3(PlayerRd.velocity.x, 0, MoveSpeed * t);
+				if ((HorizontalState == 1 && v > 0)||(HorizontalState == -1 && v < 0))
+					t = 0;
+				PlayerRd.velocity = new Vector3(PlayerRd.velocity.x, 0, MoveSpeed * t);
                 playerState = state.run;
             }
             else if (Input.GetMouseButtonDown(1))
@@ -93,10 +101,10 @@ public class Player : MonoBehaviour
                     {
                         animator.SetInteger("state", 2);
                         Debug.Log("aaa");
-                        playerAttackAudio.Play();
+                        //playerAttackAudio.Play();
                         break;
                     }
-
+                   
                 default:
                     animator.SetInteger("state", 0);
                     break;
@@ -107,9 +115,7 @@ public class Player : MonoBehaviour
                 //Debug.Log("aaaa");
                 animator.SetInteger("state", 4);
                 GameManager._instance.isPaused = true;
-                //yield return new WaitForSeconds(2);
                 GameManager._instance.GameOver.SetActive(true);
-                
                 //new WaitForSeconds(4);
                 //Time.timeScale = 0;
             }
@@ -120,7 +126,7 @@ public class Player : MonoBehaviour
     private void Update()
     {
         //实现滑动血条
-        Debug.Log(health);
+        //Debug.Log(health);
         HpStrip.value = health;
         //用菜单中的滑动条控制角色攻击音效
         gameObject.GetComponent<AudioSource>().volume = GameManager._instance.voiceSlider.value;
@@ -128,8 +134,32 @@ public class Player : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        // if(other.CompareTag("Monster"))
-        //  animator.SetInteger("state", 3);
+		if (other.CompareTag ("WallUp"))
+		{Debug.Log ("WallUp");
+			HorizontalState = 1;}
+		else if(other.CompareTag("WallDown"))
+			HorizontalState = -1;
+		if (other.CompareTag ("WallRight"))
+			verticalState = 1;
+		else if (other.CompareTag ("WallLeft"))
+			verticalState = -1;
+    }
+	private void OnTriggerExit(Collider other)
+	{
+		if (other.CompareTag ("WallUp"))
+			HorizontalState = 0;
+		else if(other.CompareTag("WallDown"))
+			HorizontalState = 0;
+		if (other.CompareTag ("WallRight"))
+			verticalState = 0;
+		else if (other.CompareTag ("WallLeft"))
+			verticalState = 0;
+	}
+    private float calculateDamage()
+    {
+        GameObject sword = GameObject.FindGameObjectWithTag("sword");
+        float damage = sword.GetComponent<normalAttack>().playerDamage;
+        return damage;
     }
     private void turnDirection(int curDirection)
     {
@@ -141,17 +171,6 @@ public class Player : MonoBehaviour
         preDirection = curDirection;
         transform.rotation = rotator;
     }
-
-    public void setAttackCoeffi(float delta)
-    {
-        GameObject sword = GameObject.FindGameObjectWithTag("sword");
-        sword.GetComponent<normalAttack>().setAttackCoeffi(delta);
-    }
-    public void changeDamage(float delta)
-    {
-        GameObject sword = GameObject.FindGameObjectWithTag("sword");
-        sword.GetComponent<normalAttack>().playerDamage += delta;
-    }
     public float getBlood()
     {
         return health;
@@ -159,22 +178,16 @@ public class Player : MonoBehaviour
 
     public void applyDamage(float damage)
     {
-
+        
         if (health > damage)
         {
             health -= damage;
-            Debug.Log(health);
+            //Debug.Log(health);
         }
         else
         {
             health = 0;
-            
             Debug.Log("Game Over!");
         }
-    }
-
-    public void addBlood(float delta)
-    {
-        health += delta;
     }
 }
