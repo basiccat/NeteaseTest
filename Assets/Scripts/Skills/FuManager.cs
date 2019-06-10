@@ -19,8 +19,8 @@ public class FuManager : MonoBehaviour {
     }
     // Use this for initialization
     void Start () {
-        
-        InvokeRepeating("activateSkills", 2.0f, 3.0f);
+        //new WaitForSeconds(10);
+        InvokeRepeating("activateSkills", 3.0f, 3.0f);
         //activateSkills();
     }
     private void activateSkills()
@@ -34,7 +34,7 @@ public class FuManager : MonoBehaviour {
             //若是碰撞体即继续设置enable
             newSkills.SetActive(true);
             currentSkillsNum++;
-            Debug.Log(currentSkillsNum);
+            //Debug.Log(currentSkillsNum);
             if (currentSkillsNum == skillsNumToSave)
             {
                 CancelInvoke();
@@ -52,7 +52,7 @@ public class FuManager : MonoBehaviour {
             if (child.position.x > X.transform.position.x)
             {
                
-                //Debug.Log(child.name);
+                Debug.Log(child.name);
                 child.GetComponent<FuAction>().speed = 100.0f;
             }
             //else { };

@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 enum state : int
 {
-    idle = 0, run = 1, attack = 2, beAttacked = 3,dead=4
+    idle = 0, run = 1, attack = 2, beAttacked = 3, dead = 4
 }
 enum colli : int
 {
@@ -49,15 +49,16 @@ public class Player : MonoBehaviour
             PlayerRd.velocity = new Vector3(0f, 0, 0f);
             float h = Input.GetAxis("Horizontal");
             float v = Input.GetAxis("Vertical");
-			if (!h.Equals (0) && !v.Equals (0)) {
-				int curDirection = h > 0 ? 0 : 1;
-				if (curDirection != preDirection)
-					turnDirection(curDirection);
-				int ht = h > 0 ? 1 : -1;
-				int vt=v > 0 ? 1 : -1;
-				PlayerRd.velocity = new Vector3(MoveSpeed * ht, 0, MoveSpeed * vt);
-				playerState = state.run;
-			}
+            if (!h.Equals(0) && !v.Equals(0))
+            {
+                int curDirection = h > 0 ? 0 : 1;
+                if (curDirection != preDirection)
+                    turnDirection(curDirection);
+                int ht = h > 0 ? 1 : -1;
+                int vt = v > 0 ? 1 : -1;
+                PlayerRd.velocity = new Vector3(MoveSpeed * ht, 0, MoveSpeed * vt);
+                playerState = state.run;
+            }
             else if (!h.Equals(0))
             {
                 int curDirection = h > 0 ? 0 : 1;
@@ -95,7 +96,7 @@ public class Player : MonoBehaviour
                         playerAttackAudio.Play();
                         break;
                     }
-                   
+
                 default:
                     animator.SetInteger("state", 0);
                     break;
@@ -106,7 +107,6 @@ public class Player : MonoBehaviour
                 //Debug.Log("aaaa");
                 animator.SetInteger("state", 4);
                 GameManager._instance.isPaused = true;
-                GameManager._instance.GameOver.SetActive(true);
                 //new WaitForSeconds(4);
                 //Time.timeScale = 0;
             }
@@ -125,14 +125,8 @@ public class Player : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-       // if(other.CompareTag("Monster"))
-          //  animator.SetInteger("state", 3);
-    }
-    private float calculateDamage()
-    {
-        GameObject sword = GameObject.FindGameObjectWithTag("sword");
-        float damage = sword.GetComponent<normalAttack>().playerDamage;
-        return damage;
+        // if(other.CompareTag("Monster"))
+        //  animator.SetInteger("state", 3);
     }
     private void turnDirection(int curDirection)
     {
@@ -144,6 +138,17 @@ public class Player : MonoBehaviour
         preDirection = curDirection;
         transform.rotation = rotator;
     }
+
+    public void setAttackCoeffi(float delta)
+    {
+        GameObject sword = GameObject.FindGameObjectWithTag("sword");
+        sword.GetComponent<normalAttack>().setAttackCoeffi(delta);
+    }
+    public void changeDamage(float delta)
+    {
+        GameObject sword = GameObject.FindGameObjectWithTag("sword");
+        sword.GetComponent<normalAttack>().playerDamage += delta;
+    }
     public float getBlood()
     {
         return health;
@@ -151,7 +156,7 @@ public class Player : MonoBehaviour
 
     public void applyDamage(float damage)
     {
-        
+
         if (health > damage)
         {
             health -= damage;
@@ -162,5 +167,10 @@ public class Player : MonoBehaviour
             health = 0;
             Debug.Log("Game Over!");
         }
+    }
+
+    public void addBlood(float delta)
+    {
+        health += delta;
     }
 }

@@ -268,12 +268,15 @@
     <Compile Include="Assets\Quit.cs" />
     <Compile Include="Assets\Scripts\CameraScroll.cs" />
     <Compile Include="Assets\Scripts\Door.cs" />
+    <Compile Include="Assets\Scripts\Enemy\Blade.cs" />
     <Compile Include="Assets\Scripts\Enemy\Boos_1.cs" />
     <Compile Include="Assets\Scripts\Enemy\FireBall.cs" />
     <Compile Include="Assets\Scripts\Enemy\Flame.cs" />
     <Compile Include="Assets\Scripts\Enemy\LandMonster.cs" />
     <Compile Include="Assets\Scripts\Enemy\Monster.cs" />
+    <Compile Include="Assets\Scripts\Enemy\Sword.cs" />
     <Compile Include="Assets\Scripts\GameManager.cs" />
+    <Compile Include="Assets\Scripts\normalAttack.cs" />
     <Compile Include="Assets\Scripts\ObjectCanBePause.cs" />
     <Compile Include="Assets\Scripts\Player.cs" />
     <Compile Include="Assets\Scripts\ReadJson.cs" />
@@ -284,7 +287,6 @@
     <Compile Include="Assets\Scripts\Skills\skill.cs" />
     <Compile Include="Assets\sound.cs" />
     <Compile Include="Assets\start.cs" />
-    <Compile Include="Assets\门神\normalAttack.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Ninja Files\Read Me.txt" />
