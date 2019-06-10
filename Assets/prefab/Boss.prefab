@@ -353,7 +353,7 @@ MonoBehaviour:
   Near: 6
   Close: 8
   Far: 12
-  BS1_Sword: {fileID: 1195813772680110, guid: b89b47c6281658b4480f2c0442b8ac41, type: 2}
+  BS1_Sword: {fileID: 1844146750437456}
   BS1_attackDegree: 60
   FlameObjectTemplate: {fileID: 1332450051096150, guid: f4424c14f93dd7f4687106ea8e0572ac,
     type: 2}

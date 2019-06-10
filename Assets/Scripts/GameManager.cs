@@ -56,7 +56,7 @@ public class GameManager : MonoBehaviour {
 				{
 					case 0:
 						
-						GameObject monster0Clone = (GameObject)GameObject.Instantiate(Monsters[0], pos, rot);
+						GameObject monster0Clone = (GameObject)GameObject.Instantiate(Monsters[0], pos, rot);   
 						monster0Clone.SetActive(true);
 						yield return new WaitForSeconds(0.5f);
 						break;

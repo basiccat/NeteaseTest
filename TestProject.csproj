@@ -262,10 +262,6 @@
     <Compile Include="Assets\Anima2D\Scripts\SpriteMesh.cs" />
     <Compile Include="Assets\Anima2D\Scripts\SpriteMeshAnimation.cs" />
     <Compile Include="Assets\Anima2D\Scripts\SpriteMeshInstance.cs" />
-    <Compile Include="Assets\ContinueGame.cs" />
-    <Compile Include="Assets\HealthBarTexture.cs" />
-    <Compile Include="Assets\pause.cs" />
-    <Compile Include="Assets\Quit.cs" />
     <Compile Include="Assets\Scripts\CameraScroll.cs" />
     <Compile Include="Assets\Scripts\Door.cs" />
     <Compile Include="Assets\Scripts\Enemy\Blade.cs" />
@@ -285,8 +281,6 @@
     <Compile Include="Assets\Scripts\Skills\FuManager.cs" />
     <Compile Include="Assets\Scripts\Skills\SelectObjManager.cs" />
     <Compile Include="Assets\Scripts\Skills\skill.cs" />
-    <Compile Include="Assets\sound.cs" />
-    <Compile Include="Assets\start.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Ninja Files\Read Me.txt" />
