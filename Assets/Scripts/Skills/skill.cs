@@ -32,11 +32,11 @@ public class skill : MonoBehaviour {
     {
         if(isActive)
         {
-            GameObject hit = other.gameObject;
-			Monster monsters = hit.GetComponent<Monster>();
-            if (monsters != null)
+   //         GameObject hit = other.gameObject;
+			//Monster monsters = hit.GetComponent<Monster>();
+            if (other.gameObject.GetComponent<Monster>() != null)
             {
-                StartCoroutine(attack(monsters));
+                StartCoroutine(attack(other.gameObject.GetComponent<Monster>()));
             }
 			//Debug.Log("Skill hit");
         }
@@ -45,11 +45,9 @@ public class skill : MonoBehaviour {
     // 接触持续中
     void OnTriggerExit(Collider other)
     {
-        GameObject hit = other.gameObject;
-        Monster monsters = hit.GetComponent<Monster>();
-        if (monsters != null)
+        if (other.gameObject.GetComponent<Monster>() != null)
         {
-            StopCoroutine(attack(monsters));
+            StopCoroutine(attack(other.gameObject.GetComponent<Monster>()));
         }
     }
 
@@ -62,7 +60,7 @@ public class skill : MonoBehaviour {
     {
         while(lastTime > 0)
         {
-            yield return new WaitForSeconds(1);
+            yield return new WaitForSeconds(2);
             lastTime--;
         }
         if (lastTime <= 0)
@@ -75,6 +73,7 @@ public class skill : MonoBehaviour {
         {
             monsters.applyDamage(power);
             Debug.Log("圆形区域技能扣血");
+            Debug.Log(monsters.name);
             yield return new WaitForSeconds(1);
         }
 

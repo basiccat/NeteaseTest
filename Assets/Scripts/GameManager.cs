@@ -32,6 +32,7 @@ public class GameManager : MonoBehaviour {
     public Slider voiceSlider;
     public GameObject GameOver;
     public GameObject Win;
+    public float MonsterGTime;
 
 	JsonData waves;
 	Vector3 pos =new Vector3(9.5f, 0.0f, 15.0f);
@@ -58,12 +59,12 @@ public class GameManager : MonoBehaviour {
 						
 						GameObject monster0Clone = (GameObject)GameObject.Instantiate(Monsters[0], pos, rot);   
 						monster0Clone.SetActive(true);
-						yield return new WaitForSeconds(0.5f);
+						yield return new WaitForSeconds(MonsterGTime);
 						break;
 					case 1:
 						GameObject monster1Clone = (GameObject)GameObject.Instantiate(Monsters[1], pos, rot);
 						monster1Clone.SetActive(true);
-						yield return new WaitForSeconds(0.5f);
+						yield return new WaitForSeconds(MonsterGTime);
 						break;
 					default:
 						break;

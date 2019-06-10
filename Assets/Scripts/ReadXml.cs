@@ -13,6 +13,7 @@ public class ReadXml : MonoBehaviour {
 	public GameObject roleB;
 	public GameObject Characters;
 	public GameObject manager;
+    
 
 	private List<string> dialogues_list;//存放dialogues的list
 	private int dialogue_index = 0;//对话索引

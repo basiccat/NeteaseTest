@@ -71,7 +71,7 @@ public class CameraScroll : MonoBehaviour {
 		//size += Input.GetAxis("Mouse ScrollWheel") * scrollSpeed;//获取鼠标中键*相机视野缩放系数
 		size = Mathf.Clamp(size, minSize, maxSize);//限定距离最小及最大值
 		gameObject.GetComponent<Camera>().orthographicSize = size;
-		Debug.Log(size);
+		///Debug.Log(size);
 		//offsetPosition = offsetPosition.normalized * distance;//更新位置偏移
 	}
 
