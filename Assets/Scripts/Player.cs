@@ -107,6 +107,9 @@ public class Player : MonoBehaviour
                 //Debug.Log("aaaa");
                 animator.SetInteger("state", 4);
                 GameManager._instance.isPaused = true;
+                //yield return new WaitForSeconds(2);
+                GameManager._instance.GameOver.SetActive(true);
+                
                 //new WaitForSeconds(4);
                 //Time.timeScale = 0;
             }
@@ -165,6 +168,7 @@ public class Player : MonoBehaviour
         else
         {
             health = 0;
+            
             Debug.Log("Game Over!");
         }
     }

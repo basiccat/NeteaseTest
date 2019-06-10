@@ -59,7 +59,12 @@ public class Monster : MonoBehaviour {
 				Debug.Log("health empty");
 				health = 0;  //血量清零
                 alive = false; //更新死亡状态
-							   //播放死亡动画
+                               //播放死亡动画
+                if (gameObject.name == "Boss(Clone)")
+                {
+                    GameManager._instance.Win.SetActive(true);
+                    GameManager._instance.isPaused = true;
+                }
 				Destroy(gameObject);
 				
 			}

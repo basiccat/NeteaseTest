@@ -64,7 +64,8 @@ public class LandMonster : Monster
     void Update()
     {
         if (!GameManager._instance.isPaused)
-        {            
+        {
+            Debug.Log("jixu");
             if (angryValue > angryValueBoarder)
             {                
                 switch(status)
