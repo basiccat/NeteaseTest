@@ -9,6 +9,8 @@ public class FireBall : MonoBehaviour {
     public float FlySpeed=0.01f;
     public float Damage = 5.0f;
 
+    public float life = 5.0f;
+
     //public float TotoalSeconds = 3f;
     //public float timeNow = 0;
 
@@ -35,15 +37,16 @@ public class FireBall : MonoBehaviour {
 
     private float RotationY = 0;
     public void setEuler(float Euler_) { RotationY = Euler_; }
-    // Use this for initialization
+
+    private float lifeTimeNow = 0.0f;
+
     void Start () {
 		if(!direction)
         {
             transform.Rotate(0f, 180f, 0f);
         }
 	}
-	
-	// Update is called once per frame
+		
 	void Update () {
 
         /**贝塞尔弧线式喷发**/
@@ -54,6 +57,12 @@ public class FireBall : MonoBehaviour {
         //}
         //Vector3 positon = Bezier(StartPosition, AirPosition, GroundPosition, timeNow / TotoalSeconds);
         //transform.position = positon;
+
+        lifeTimeNow += Time.deltaTime;
+        if(lifeTimeNow>=life)
+        {
+            Destroy(gameObject);
+        }
 
         //向左
         transform.Translate(new Vector3(Mathf.Abs(FlySpeed * Mathf.Cos(Mathf.Deg2Rad * RotationY)), 0.0f,-1.0f* FlySpeed * Mathf.Sin(Mathf.Deg2Rad * RotationY)));        

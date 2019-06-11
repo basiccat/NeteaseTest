@@ -1,0 +1,26 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NeteaseTest", "NeteaseTest.csproj", "{A548F759-FD33-44DD-5279-33F792C91837}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NeteaseTest.Editor", "NeteaseTest.Editor.csproj", "{EC0AE902-25B5-F8EF-10A6-8664530859F0}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A548F759-FD33-44DD-5279-33F792C91837}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A548F759-FD33-44DD-5279-33F792C91837}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A548F759-FD33-44DD-5279-33F792C91837}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A548F759-FD33-44DD-5279-33F792C91837}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EC0AE902-25B5-F8EF-10A6-8664530859F0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EC0AE902-25B5-F8EF-10A6-8664530859F0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EC0AE902-25B5-F8EF-10A6-8664530859F0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EC0AE902-25B5-F8EF-10A6-8664530859F0}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

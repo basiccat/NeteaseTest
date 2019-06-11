@@ -88,14 +88,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.7352941, g: 0.1621972, b: 0.31634063, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 21300000, guid: db3780324890fdd4f9433d1398ab33dd, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 9b5d8281e4fd0da4eb0ed515440366bd, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -115,10 +115,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 100
-  inistatePrefab: {fileID: 1076904470302868, guid: 2888df8ad422a904d93121ba73bd5a3e,
+  inistatePrefab: {fileID: 1336761159846852, guid: 7c944e61bb8616a4ba8250f16b17967f,
     type: 2}
   showMessage: 0
-  skillName: "\u70B8"
+  skillName: "\u4E5D\u661F\u795E\u5492"
+  cam: {fileID: 0}
+  height: 3
 --- !u!222 &222538219364663764
 CanvasRenderer:
   m_ObjectHideFlags: 1

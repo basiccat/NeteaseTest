@@ -25,7 +25,7 @@ public class Monster : MonoBehaviour {
     public float angryValueBoarder=60.0f; //发怒所需要的怒气值,暂时对外暴露，调试好后为怪物的固定数值
 
     protected bool direction;  //true->left false->right
-
+    protected bool canMove = true;
 
 
     void Start () {
@@ -75,7 +75,19 @@ public class Monster : MonoBehaviour {
                 //播放受击动画
             }
         }
-		Debug.Log("damage receive, remain health: "+health);
-        
+		//Debug.Log("damage receive, remain health: "+health);        
     }
+
+    /*对外接口，用于限制移动*/
+    public void CantMove()
+    {
+        canMove = false;
+    }
+
+    /*对外接口，用于取消移动限制*/
+    public void CanMove()
+    {
+        canMove = true;
+    }
+
 }

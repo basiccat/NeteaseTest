@@ -18,7 +18,9 @@ public class LandMonster : Monster
 
     /*普通攻击相关*/
     public GameObject LM_Sword; //攻击使用的🗡
-    public float LM_attackDegree = 60.0f; //普通攻击的角度     
+    public float LM_attackDegree = 60.0f; //普通攻击的角度 
+    
+
     /**********内部变量************/
 
     //技能形态
@@ -42,6 +44,8 @@ public class LandMonster : Monster
     private bool LM_attack_isStart=false; //是否已经开始攻击
     private float LM_attack_timeNow; //当前攻击状态的时间
     private float LM_attack_startDegree; //攻击开始的角度
+
+    
     /**********函数************/
     void Start()
     {
@@ -64,8 +68,7 @@ public class LandMonster : Monster
     void Update()
     {
         if (!GameManager._instance.isPaused)
-        {
-            Debug.Log("jixu");
+        {            
             if (angryValue > angryValueBoarder)
             {                
                 switch(status)
@@ -106,71 +109,76 @@ public class LandMonster : Monster
         bool shouldMove = false;
         Vector3 translator = new Vector3();
 
-        if (xDistance > PlayerAttackDistanceX)
+        //当前是否能动
+        if(canMove)
         {
-            //怪物在玩家的右侧且尚未接近
-            shouldMove = true;
-            TurnLeft();
-            translator.x = speed;
-            direction = true;
-        }
-        else if (xDistance < -1.0f * PlayerAttackDistanceX)
-        {
-            //怪物在玩家的左侧且尚未接近
-            shouldMove = true;
-            TurnRight();
-            translator.x = speed;
-            direction = false;
-        }
-
-        if (yDistance > PlayerAttackDistanceZ)
-        {
-            //怪物在玩家的上方侧且尚未接近
-            shouldMove = true;
-            if (direction)
+            if (xDistance > PlayerAttackDistanceX)
             {
-                //怪物面向左侧，z轴正方向向下
-                translator.z = speed;
+                //怪物在玩家的右侧且尚未接近
+                shouldMove = true;
+                TurnLeft();
+                translator.x = speed;
+                direction = true;
             }
-            else
+            else if (xDistance < -1.0f * PlayerAttackDistanceX)
             {
-                //怪物面向右侧，z轴正方向向上
-                translator.z = -1.0f * speed;
+                //怪物在玩家的左侧且尚未接近
+                shouldMove = true;
+                TurnRight();
+                translator.x = speed;
+                direction = false;
             }
 
-        }
-        else if (yDistance < -1.0f * PlayerAttackDistanceZ)
-        {
-            //怪物在玩家的下方且尚未接近
-            shouldMove = true;
-            if (direction)
+            if (yDistance > PlayerAttackDistanceZ)
             {
-                //怪物面向左侧，z轴正方向向下
-                translator.z = -1.0f * speed;
-            }
-            else
-            {
-                //怪物面向右侧，z轴正方向向上
-                translator.z = speed;
-            }
-        }
+                //怪物在玩家的上方侧且尚未接近
+                shouldMove = true;
+                if (direction)
+                {
+                    //怪物面向左侧，z轴正方向向下
+                    translator.z = speed;
+                }
+                else
+                {
+                    //怪物面向右侧，z轴正方向向上
+                    translator.z = -1.0f * speed;
+                }
 
-        MonsterAnimator.SetBool(moveAnimParameter, shouldMove);
-        if (shouldMove)
-        {
-            //尚未到达攻击地点
-            if (direction)
-            {
-                Quaternion quaternion = Quaternion.Euler(0, 180, 0);
-                MonsterTransform.rotation = quaternion;
             }
-            else
+            else if (yDistance < -1.0f * PlayerAttackDistanceZ)
             {
-                Quaternion quaternion = Quaternion.Euler(0, 0, 0);
-                MonsterTransform.rotation = quaternion;
+                //怪物在玩家的下方且尚未接近
+                shouldMove = true;
+                if (direction)
+                {
+                    //怪物面向左侧，z轴正方向向下
+                    translator.z = -1.0f * speed;
+                }
+                else
+                {
+                    //怪物面向右侧，z轴正方向向上
+                    translator.z = speed;
+                }
             }
-            MonsterTransform.Translate(translator);
+
+            MonsterAnimator.SetBool(moveAnimParameter, shouldMove);
+            if (shouldMove)
+            {
+                //尚未到达攻击地点
+                if (direction)
+                {
+                    Quaternion quaternion = Quaternion.Euler(0, 180, 0);
+                    MonsterTransform.rotation = quaternion;
+                }
+                else
+                {
+                    Quaternion quaternion = Quaternion.Euler(0, 0, 0);
+                    MonsterTransform.rotation = quaternion;
+                }
+                MonsterTransform.Translate(translator);
+            }
         }
+        
         return shouldMove;
     }
 

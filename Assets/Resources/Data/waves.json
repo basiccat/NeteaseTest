@@ -4,89 +4,169 @@
             "monster": [
                 {
                     "type": 0,
-                    "posx": 9,
+                    "posx": 52,
                     "posy": 0,
-                    "posz": 15,
+                    "posz": -22,
                     "rot": 180
                 },
                 {
                     "type": 0,
-                    "posx": 5,
+                    "posx": 55,
                     "posy": 0,
-                    "posz": 15,
+                    "posz": -24,
                     "rot": 180
                 },
                 {
                     "type": 0,
-                    "posx": 9,
-                    "posy": -3,
-                    "posz": 20,
-                    "rot": 180
-                },
-                {
-                    "type": 0,
-                    "posx": 9,
-                    "posy": -3,
-                    "posz": 20,
-                    "rot": 180
-                },
-                {
-                    "type": 0,
-                    "posx": 9,
+                    "posx": 50,
                     "posy": 0,
-                    "posz": 20,
+                    "posz": -20,
+                    "rot": 180
+                },
+                {
+                    "type": 0,
+                    "posx": 47,
+                    "posy": 0,
+                    "posz": -21,
+                    "rot": 180
+                },
+              {
+                "type": 0,
+                "posx": 49,
+                "posy": 0,
+                "posz": -21,
+                "rot": 180
+              }
+            ],
+            "time": 10
+        },
+        {
+            "monster": [
+                {
+                    "type": 0,
+                    "posx": 52,
+                    "posy": 0,
+                    "posz": -22,
+                    "rot": 180
+                },
+                {
+                    "type": 0,
+                    "posx": 55,
+                    "posy": 0,
+                    "posz": -24,
+                    "rot": 180
+                },
+                {
+                    "type": 0,
+                    "posx": 50,
+                    "posy": 0,
+                    "posz": -20,
+                    "rot": 180
+                },
+                {
+                    "type": 0,
+                    "posx": 47,
+                    "posy": 0,
+                    "posz": -21,
+                    "rot": 180
+                },
+                {
+                    "type": 0,
+                    "posx": 49,
+                    "posy": 0,
+                    "posz": -21,
                     "rot": 180
                 }
             ],
             "time": 10
         },
-      {
-        "monster": [
-          {
-            "type": 0,
-            "posx": 9,
-            "posy": 0,
-            "posz": 15,
-            "rot": 180
-          },
-          {
-            "type": 0,
-            "posx": 5,
-            "posy": 0,
-            "posz": 15,
-            "rot": 180
-          },
-          {
-            "type": 0,
-            "posx": 9,
-            "posy": 0,
-            "posz": 20,
-            "rot": 180
-          },
-          {
-            "type": 0,
-            "posx": 9,
-            "posy": 0,
-            "posz": 20,
-            "rot": 180
-          },
-          {
-            "type": 0,
-            "posx": 9,
-            "posy": 0,
-            "posz": 20,
-            "rot": 180
-          }
-        ],
-        "time": 10
-      },
+        {
+            "monster": [
+                {
+                    "type": 0,
+                    "posx": 52,
+                    "posy": 0,
+                    "posz": -22,
+                    "rot": 180
+                },
+                {
+                    "type": 0,
+                    "posx": 55,
+                    "posy": 0,
+                    "posz": -24,
+                    "rot": 180
+                },
+                {
+                    "type": 0,
+                    "posx": 50,
+                    "posy": 0,
+                    "posz": -20,
+                    "rot": 180
+                },
+                {
+                    "type": 0,
+                    "posx": 47,
+                    "posy": 0,
+                    "posz": -21,
+                    "rot": 180
+                },
+                {
+                    "type": 0,
+                    "posx": 49,
+                    "posy": 0,
+                    "posz": -21,
+                    "rot": 180
+                }
+            ],
+            "time": 10
+        },
+        {
+            "monster": [
+                {
+                    "type": 0,
+                    "posx": 52,
+                    "posy": 0,
+                    "posz": -22,
+                    "rot": 180
+                },
+                {
+                    "type": 0,
+                    "posx": 55,
+                    "posy": 0,
+                    "posz": -24,
+                    "rot": 180
+                },
+                {
+                    "type": 0,
+                    "posx": 50,
+                    "posy": 0,
+                    "posz": -20,
+                    "rot": 180
+                },
+                {
+                    "type": 0,
+                    "posx": 47,
+                    "posy": 0,
+                    "posz": -21,
+                    "rot": 180
+                },
+                {
+                    "type": 0,
+                    "posx": 49,
+                    "posy": 0,
+                    "posz": -21,
+                    "rot": 180
+                }
+            ],
+            "time": 10
+        },
         {
             "monster": [
                 {
                     "type": 1,
-                    "posx": 5,
+                    "posx": 40,
                     "posy": 0,
-                    "posz": 15,
+                    "posz": -14,
                     "rot": 180
                 }
             ],

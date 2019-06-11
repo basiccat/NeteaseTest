@@ -52,7 +52,7 @@ public class FuManager : MonoBehaviour {
             if (child.position.x > X.transform.position.x)
             {
                
-                Debug.Log(child.name);
+                //Debug.Log(child.name);
                 child.GetComponent<FuAction>().speed = 100.0f;
             }
             //else { };

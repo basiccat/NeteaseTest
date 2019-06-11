@@ -15,6 +15,9 @@ public class FuAction : MonoBehaviour, IPointerDownHandler, IPointerEnterHandler
     public string skillName;
     public GameObject cam;//camera
     // Use this for initialization
+
+    public float height;
+
     void Start () {
         if (inistatePrefab == null)
             return;
@@ -49,7 +52,7 @@ public class FuAction : MonoBehaviour, IPointerDownHandler, IPointerEnterHandler
         {
             //Debug.Log(gameObject.name);
             inistateObj.SetActive(true);
-            SelectObjManager.Instance.AttachNewObject(inistateObj);
+            SelectObjManager.Instance.AttachNewObject(inistateObj,height);
             FuManager._instance.resetSkillSpeed(gameObject);
             Destroy(gameObject);
             FuManager._instance.currentSkillsNum -= 1;

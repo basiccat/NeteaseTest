@@ -11,6 +11,9 @@ public class SelectObjManager : MonoBehaviour
 
     public GameObject cam;//camera
     private static SelectObjManager _instance;
+
+    public float height;
+    
     public static SelectObjManager Instance
     {
         get { return _instance; }
@@ -42,12 +45,7 @@ public class SelectObjManager : MonoBehaviour
 
         if (Input.GetMouseButton(0))
         {
-            /*
-            mouseRay = Camera.main.ScreenPointToRay(Input.mousePosition);//从屏幕中鼠标的位置产生一条射线
-            Physics.Raycast(mouseRay, out planePoint, Mathf.Infinity, mask.value);//计算射线与地面的交点          
-            Vector3 target = new Vector3(planePoint.point.x, this.transform.position.y, planePoint.point.z);//保持y坐标不变，将交点的x、z坐标视为物体新位置
-            transform.position = target;//将新位置赋值
-            */
+
             MoveCurrentPlaceObj();
             //点击技能时，放大正交相机视口（见CameraScroll类
             cam.GetComponent<CameraScroll>().scrollState(true);
@@ -85,7 +83,8 @@ public class SelectObjManager : MonoBehaviour
             point = ray.GetPoint(_zDistance);
             isPlaceSuccess = false;
         }
-        Vector3 target = new Vector3(planePoint.point.x, this.transform.position.y, planePoint.point.z);
+
+        Vector3 target = new Vector3(planePoint.point.x, this.transform.position.y -height , planePoint.point.z);
         currentPlaceObj.transform.position = point + target;
         currentPlaceObj.transform.localEulerAngles = new Vector3(0, 60, 0);
     }
@@ -100,19 +99,14 @@ public class SelectObjManager : MonoBehaviour
         obj.transform.localEulerAngles = currentPlaceObj.transform.localEulerAngles;
         obj.transform.localScale *= _scaleFactor;
 
- //       obj.SendMessage("setActive");
- //       Debug.Log("1");
-
 
         Debug.Log("set");
-        skill skills = obj.GetComponent<skill>();
-        if (skills != null)
-        {
-            obj.GetComponent<skill>().enabled = true;
-            Debug.Log("技能激活");
-                  obj.SendMessage("setActive");
-                  Debug.Log("1");
-        }
+
+        obj.GetComponent<CapsuleCollider>().enabled = true;
+        //Debug.Log("技能激活");
+        obj.SendMessage("setActive");
+        Debug.Log("1");
+        
     }
     /// <summary>
     ///检测是否放置成功
@@ -124,19 +118,19 @@ public class SelectObjManager : MonoBehaviour
             CreatePlaceObj();
         }
         isDragging = false;
-        currentPlaceObj.SetActive(false);
+        Destroy(currentPlaceObj.gameObject);
         currentPlaceObj = null;
-
     }
 
 
     /// 将要创建的对象传递给当前对象管理器
-    public void AttachNewObject(GameObject newObject)
+    public void AttachNewObject(GameObject newObject,float h)
     {
         if (currentPlaceObj)
         {
             currentPlaceObj.SetActive(false);
         }
         currentPlaceObj = newObject;
+        height = h;
     }
 }

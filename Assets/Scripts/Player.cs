@@ -176,6 +176,19 @@ public class Player : MonoBehaviour
         return health;
     }
 
+
+    public void setAttackCoeffi(float delta)
+    {
+        GameObject sword = GameObject.FindGameObjectWithTag("sword");
+        sword.GetComponent<normalAttack>().setAttackCoeffi(delta);
+    }
+    public void changeDamage(float delta)
+    {
+        GameObject sword = GameObject.FindGameObjectWithTag("sword");
+        sword.GetComponent<normalAttack>().playerDamage += delta;
+    }
+
+
     public void applyDamage(float damage)
     {
         
@@ -189,5 +202,11 @@ public class Player : MonoBehaviour
             health = 0;
             Debug.Log("Game Over!");
         }
+    }
+
+    public void addBlood(float delta)
+    {
+        health += delta;
+        Debug.Log("加血");
     }
 }

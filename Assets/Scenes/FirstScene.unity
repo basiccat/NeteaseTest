@@ -2448,6 +2448,11 @@ MonoBehaviour:
   m_BoneTransforms:
   - {fileID: 1955033729}
   - {fileID: 82675348}
+--- !u!1 &614135873 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1210984172527250, guid: f5dcd994016347645ac92c3c7d0b7316,
+    type: 2}
+  m_PrefabInternal: {fileID: 1474377794}
 --- !u!1 &650398245
 GameObject:
   m_ObjectHideFlags: 0
@@ -2905,14 +2910,15 @@ MonoBehaviour:
   Player: {fileID: 33479520}
   Door: {fileID: 1500414392}
   Monsters:
-  - {fileID: 1210984172527250, guid: f5dcd994016347645ac92c3c7d0b7316, type: 2}
-  - {fileID: 1253086776638302, guid: 2d99a5fe1afee77409b9ba796c49b39a, type: 2}
+  - {fileID: 614135873}
+  - {fileID: 1932972101}
   backgroundSlider: {fileID: 1292009072}
   voiceSlider: {fileID: 2014937187}
   GameOver: {fileID: 1816657452}
   Win: {fileID: 1709844293}
   MonsterGTime: 1
   conversation: {fileID: 1720910545}
+  bossCome: 0
 --- !u!82 &733357922
 AudioSource:
   m_ObjectHideFlags: 0
@@ -3089,6 +3095,8 @@ MonoBehaviour:
   skills:
   - {fileID: 1595680151982458, guid: 1282523814e86244893de7f14650ba61, type: 2}
   - {fileID: 1882687336490554, guid: 2ee9a89ff1c593e4f92997b310019d3c, type: 2}
+  - {fileID: 1882687336490554, guid: 53844a1cd2a35934e8e6749ec72d3758, type: 2}
+  - {fileID: 1882687336490554, guid: 4bb35c76719ca8e4a9edd5aeddf8c1ab, type: 2}
   left: 400
   currentSkillsNum: 0
   skillsNumToSave: 4
@@ -4134,7 +4142,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 1210984172527250, guid: f5dcd994016347645ac92c3c7d0b7316, type: 2}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: f5dcd994016347645ac92c3c7d0b7316, type: 2}
@@ -5262,6 +5270,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cam: {fileID: 1764521762}
+  height: 0
   _zDistance: 50
   _scaleFactor: 1.2
   _groundLayerMask:
@@ -6010,6 +6019,11 @@ MonoBehaviour:
   m_SortingOrder: 3
   m_BoneTransforms:
   - {fileID: 35664753}
+--- !u!1 &1932972101 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1253086776638302, guid: 2d99a5fe1afee77409b9ba796c49b39a,
+    type: 2}
+  m_PrefabInternal: {fileID: 263414162}
 --- !u!1 &1955033728
 GameObject:
   m_ObjectHideFlags: 0

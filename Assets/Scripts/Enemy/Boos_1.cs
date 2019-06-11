@@ -21,6 +21,7 @@ public class Boos_1 : LandMonster
     private string DashPoseAnimStateName = "DashPose";
     private string DashPoseAnimParameter = "dashPose";
     private string DashAttackAnimStateName = "DashAttack";
+    private string DashAttackAnimParameter = "dashAttack";
 
     private string FireExplosionAnimStateName = "FireExplosion";
     private string FireExplosionAnimParameter = "fireExplode";
@@ -38,6 +39,7 @@ public class Boos_1 : LandMonster
     
     //冲刺攻击相关
     public float DashSpeed = 0.05f;
+    public float DashAttackDegree = 60.0f; //普通攻击的角度    
 
     //火焰喷发相关
     public GameObject FireExplosionTemplate;
@@ -81,6 +83,7 @@ public class Boos_1 : LandMonster
         MonsterAnimator.SetBool(attackAnimParemeter, false);        
     }
     private bool isChaseAttack = false;
+
     //喷射火焰的状态机
     private enum ProjectFireStatus
     {
@@ -93,13 +96,13 @@ public class Boos_1 : LandMonster
     private void ResetProjectFire()
     {
         projectFireStatus = ProjectFireStatus.Chasing;//重置喷射火焰状态机
-        BS1_projectFire_totalTime = 0.0f; //喷射火焰预备动作使用的时间
-        BS1_projectFire_isStart = false; //是否已经播放对应动画
-        BS1_projectFire_timeNow = 0.0f; //当前预备动作状态已经进行到的时间
+        projectFire_totalTime = 0.0f; //喷射火焰预备动作使用的时间
+        projectFire_isStart = false; //是否已经播放对应动画
+        projectFire_timeNow = 0.0f; //当前预备动作状态已经进行到的时间
 
-        BS1_projectFirePose_totalTime=0.0f; //喷射火焰的时间
-        BS1_projectFirePose_isStart = false; //是否已经开始喷射火焰
-        BS1_projectFirePose_timeNow=0.0f; //当前喷火状态已经进行到状态的时间
+        projectFirePose_totalTime=0.0f; //喷射火焰的时间
+        projectFirePose_isStart = false; //是否已经开始喷射火焰
+        projectFirePose_timeNow=0.0f; //当前喷火状态已经进行到状态的时间
 
         MonsterAnimator.SetBool(ProjectFireAnimParameter, false);
         MonsterAnimator.SetBool(ProjectFirePoseAnimParameter, false);
@@ -111,7 +114,8 @@ public class Boos_1 : LandMonster
         StopMoving,
         StartDashing,
         Dashing,
-        StopDashing
+        StartAttack,
+        StopAttacking
     }
     private void ResetDashAttack()
     {
@@ -145,17 +149,21 @@ public class Boos_1 : LandMonster
     private ProjectFireStatus projectFireStatus = ProjectFireStatus.Chasing; //喷射火焰的状态机，初始状态为追踪玩家    
     private GameObject SpawnedFlame; //产生的火焰
     
-    private float BS1_projectFire_totalTime; //喷射火焰预备动作使用的时间
-    private bool BS1_projectFire_isStart = false; //是否已经播放对应动画
-    private float BS1_projectFire_timeNow; //当前预备动作状态已经进行到的时间
+    private float projectFire_totalTime; //喷射火焰预备动作使用的时间
+    private bool projectFire_isStart = false; //是否已经播放对应动画
+    private float projectFire_timeNow; //当前预备动作状态已经进行到的时间
 
-    private float BS1_projectFirePose_totalTime; //喷射火焰的时间
-    private bool BS1_projectFirePose_isStart = false; //是否已经开始喷射火焰
-    private float BS1_projectFirePose_timeNow; //当前喷火状态已经进行到状态的时间
+    private float projectFirePose_totalTime; //喷射火焰的时间
+    private bool projectFirePose_isStart = false; //是否已经开始喷射火焰
+    private float projectFirePose_timeNow; //当前喷火状态已经进行到状态的时间
 
     //冲刺攻击相关
     private DashAtackStatus dashAttackStatus = DashAtackStatus.StopMoving; //冲刺攻击的状态机，初始状态为冲向玩家位置
     private Vector3 dashPosition;    //冲向的位置
+    private float dashAttack_totalTime; //攻击使用的时间
+    private bool dashAttack_isStart=false; //是否已经开始攻击
+    private float dashAttack_timeNow=0.0f; //当前攻击状态的时间
+    private float dashAttack_startDegree; //攻击开始的角度
 
     //火焰爆发相关
     private FireExplosionStatus fireExplosionStatus = FireExplosionStatus.StopMoving; //冲刺攻击的状态机，初始状态为冲向玩家位置    
@@ -193,7 +201,8 @@ public class Boos_1 : LandMonster
     void Update()
     {
         if (!GameManager._instance.isPaused)
-        {                        
+        {
+            //Debug.Log(BS1_status);
             if (angryValue < angryValueBoarder)
             {
                 //未发怒状态            
@@ -463,7 +472,6 @@ public class Boos_1 : LandMonster
                                     BS1_attack_startDegree = (-1.0f * (BS1_attackDegree / 2.0f));
                                     BS1_SwordTransform.rotation = Quaternion.Euler(0.0f, BS1_attack_startDegree, 0.0f);
                                 }
-
                             }
                             else
                             {
@@ -537,7 +545,7 @@ public class Boos_1 : LandMonster
                     {
                         if (AnimatorStateInfo.IsName(DashAnimStateName))
                         {
-                            //正在做dash动作
+                            //正在做dash预备动作
                             dashAttackStatus = DashAtackStatus.Dashing;
                             MonsterAnimator.SetBool(DashPoseAnimParameter, true);
                         }
@@ -554,56 +562,60 @@ public class Boos_1 : LandMonster
                             bool isMove = false;
                             Vector3 translator = new Vector3();
 
-                            if (xDistance > DashSpeed)
-                            {
-                                //怪物在玩家的右侧且尚未接近
-                                isMove = true;
-                                TurnLeft();
-                                translator.x = DashSpeed;
-                                direction = true;
-                            }
-                            else if (xDistance < -1.0f * DashSpeed)
-                            {
-                                //怪物在玩家的左侧且尚未接近
-                                isMove = true;
-                                TurnRight();
-                                translator.x = DashSpeed;
-                                direction = false;
-                            }
-
-                            if (yDistance > DashSpeed)
-                            {
-                                //怪物在玩家的上方侧且尚未接近
-                                isMove = true;
-                                if (direction)
+                            if (canMove)
+                            {                                
+                                if (xDistance > DashSpeed)
                                 {
-                                    //怪物面向左侧，z轴正方向向下
-                                    translator.z = DashSpeed;
+                                    //怪物在玩家的右侧且尚未接近
+                                    isMove = true;
+                                    TurnLeft();
+                                    translator.x = DashSpeed;
+                                    direction = true;
                                 }
-                                else
+                                else if (xDistance < -1.0f * DashSpeed)
                                 {
-                                    //怪物面向右侧，z轴正方向向上
-                                    translator.z = -1.0f * DashSpeed;
+                                    //怪物在玩家的左侧且尚未接近
+                                    isMove = true;
+                                    TurnRight();
+                                    translator.x = DashSpeed;
+                                    direction = false;
                                 }
 
-                            }
-                            else if (yDistance < -1.0f * DashSpeed)
-                            {
-                                //怪物在玩家的下方且尚未接近
-                                isMove = true;
-                                if (direction)
+                                if (yDistance > DashSpeed)
                                 {
-                                    //怪物面向左侧，z轴正方向向下
-                                    translator.z = -1.0f * DashSpeed;
-                                }
-                                else
-                                {
-                                    //怪物面向右侧，z轴正方向向上
-                                    translator.z = DashSpeed;
-                                }
-                            }
+                                    //怪物在玩家的上方侧且尚未接近
+                                    isMove = true;
+                                    if (direction)
+                                    {
+                                        //怪物面向左侧，z轴正方向向下
+                                        translator.z = DashSpeed;
+                                    }
+                                    else
+                                    {
+                                        //怪物面向右侧，z轴正方向向上
+                                        translator.z = -1.0f * DashSpeed;
+                                    }
 
-                            MonsterAnimator.SetBool(moveAnimParameter, isMove);
+                                }
+                                else if (yDistance < -1.0f * DashSpeed)
+                                {
+                                    //怪物在玩家的下方且尚未接近
+                                    isMove = true;
+                                    if (direction)
+                                    {
+                                        //怪物面向左侧，z轴正方向向下
+                                        translator.z = -1.0f * DashSpeed;
+                                    }
+                                    else
+                                    {
+                                        //怪物面向右侧，z轴正方向向上
+                                        translator.z = DashSpeed;
+                                    }
+                                }
+
+                                MonsterAnimator.SetBool(moveAnimParameter, isMove);
+                            }
+                            
                             if (isMove)
                             {
                                 //尚未到达攻击地点
@@ -624,12 +636,55 @@ public class Boos_1 : LandMonster
                             {
                                 //已经到达攻击地点
                                 MonsterAnimator.SetBool(DashPoseAnimParameter, false); //结束冲刺pose，开始播放攻击动画
-                                dashAttackStatus = DashAtackStatus.StopDashing;
+                                MonsterAnimator.SetBool(DashAttackAnimParameter, true); 
+                                dashAttackStatus = DashAtackStatus.StartAttack;
                             }
                         }
                         break;
                     }
-                case DashAtackStatus.StopDashing:
+                case DashAtackStatus.StartAttack:
+                    {
+                        //已经开始做攻击动作
+                        if (AnimatorStateInfo.IsName(DashAttackAnimStateName))
+                        {
+                            //获取整个动作的时间
+                            dashAttack_totalTime = AnimatorStateInfo.length;
+                            if(!dashAttack_isStart)
+                            {
+                                dashAttack_timeNow = 0.0f;
+                                dashAttack_isStart = true;
+                                BS1_Sword.GetComponent<Sword>().Blade.SetActive(true); //激活剑刃                                
+                                if (direction)
+                                {
+                                    //因为受LandMonster自身的transform影响，导致子节点Sword的transform会绕y轴旋转180
+                                    dashAttack_startDegree = -180.0f + (-1.0f * (DashAttackDegree / 2.0f));
+                                    BS1_SwordTransform.rotation = Quaternion.Euler(0.0f, dashAttack_startDegree, 0.0f);
+                                }
+                                else
+                                {
+                                    //面向右边
+                                    dashAttack_startDegree = (-1.0f * (DashAttackDegree / 2.0f));
+                                    BS1_SwordTransform.rotation = Quaternion.Euler(0.0f, dashAttack_startDegree, 0.0f);
+                                }
+                            }
+                            else
+                            {
+                                dashAttack_timeNow += Time.deltaTime;
+                                BS1_SwordTransform.rotation = Quaternion.Euler(0.0f, dashAttack_startDegree + (dashAttack_timeNow / dashAttack_totalTime) * DashAttackDegree, 0.0f);
+                            }
+                        }
+                        if (dashAttack_isStart && dashAttack_timeNow >= dashAttack_totalTime)
+                        {
+                            //已经完成了攻击                            
+                            MonsterAnimator.SetBool(DashAttackAnimParameter, false);
+                            dashAttackStatus = DashAtackStatus.StopAttacking;
+                            BS1_Sword.GetComponent<Sword>().Blade.SetActive(false);
+                            dashAttack_isStart = false; //停止攻击
+                            dashAttack_timeNow = 0.0f;
+                        }
+                        break;
+                    }
+                case DashAtackStatus.StopAttacking:
                     {
                         if (AnimatorStateInfo.IsName(IdleAnimStateName))
                         {
@@ -719,26 +774,26 @@ public class Boos_1 : LandMonster
                         if (AnimatorStateInfo.IsName(ProjectFireAnimStateName))
                         {
                             //已经开始播放喷火预备动作动画
-                            BS1_projectFire_totalTime = AnimatorStateInfo.length;
-                            if(!BS1_projectFire_isStart)
+                            projectFire_totalTime = AnimatorStateInfo.length;
+                            if(!projectFire_isStart)
                             {
-                                BS1_projectFire_timeNow = 0.0f;
-                                BS1_projectFire_isStart = true;
+                                projectFire_timeNow = 0.0f;
+                                projectFire_isStart = true;
                             }
                             else
                             {                                
-                                BS1_projectFire_timeNow += Time.deltaTime;
+                                projectFire_timeNow += Time.deltaTime;
                             }                            
                         }
 
-                        if(BS1_projectFire_isStart && BS1_projectFire_timeNow >= BS1_projectFire_totalTime)
+                        if(projectFire_isStart && projectFire_timeNow >= projectFire_totalTime)
                         {
                             //喷火预备动作动画播放结束
                             MonsterAnimator.SetBool(ProjectFireAnimParameter, false);
                             MonsterAnimator.SetBool(ProjectFirePoseAnimParameter, true);
                             projectFireStatus = ProjectFireStatus.ProjectingPose;
-                            BS1_projectFire_timeNow = 0.0f;
-                            BS1_projectFire_isStart = false;
+                            projectFire_timeNow = 0.0f;
+                            projectFire_isStart = false;
                         }
                         break;
                     }
@@ -746,9 +801,9 @@ public class Boos_1 : LandMonster
                     {
                         if (AnimatorStateInfo.IsName(ProjectFirePoseAnimStateName))
                         {
-                            BS1_projectFirePose_totalTime = AnimatorStateInfo.length;
+                            projectFirePose_totalTime = AnimatorStateInfo.length;
                             //正在保持生成火焰的姿势
-                            if (!BS1_projectFirePose_isStart)
+                            if (!projectFirePose_isStart)
                             {
                                 //还没生成火焰,则在Boss身前生成一个火焰球       
                                 Vector3 SpawnPosition = MonsterTransform.position;
@@ -758,22 +813,22 @@ public class Boos_1 : LandMonster
                                 SpawnedFlame = GameObject.Instantiate(FlameObjectTemplate, SpawnPosition, SpawnDirection);
                                 SpawnedFlame.SetActive(true);                                 
 
-                                BS1_projectFirePose_isStart = true;
-                                BS1_projectFirePose_timeNow = 0.0f;
+                                projectFirePose_isStart = true;
+                                projectFirePose_timeNow = 0.0f;
                             }
                             else
                             {
-                                BS1_projectFirePose_timeNow += Time.deltaTime;
+                                projectFirePose_timeNow += Time.deltaTime;
                             }                            
                         }
 
-                        if (BS1_projectFirePose_isStart && BS1_projectFirePose_timeNow >= BS1_projectFirePose_totalTime)
+                        if (projectFirePose_isStart && projectFirePose_timeNow >= projectFirePose_totalTime)
                         {
                             //动画播放结束                            
                             MonsterAnimator.SetBool(ProjectFirePoseAnimParameter, false);
                             projectFireStatus = ProjectFireStatus.StopProjecting;
-                            BS1_projectFirePose_timeNow = 0.0f;
-                            BS1_projectFirePose_isStart = false;
+                            projectFirePose_timeNow = 0.0f;
+                            projectFirePose_isStart = false;
                             Destroy(SpawnedFlame);
                         }
                         break;

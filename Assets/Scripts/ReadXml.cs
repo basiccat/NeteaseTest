@@ -56,7 +56,7 @@ public class ReadXml : MonoBehaviour {
 		Characters.SetActive(false);
 		if (level_index==0)
 		{
-			Debug.Log("Initialte conversation.");
+			//Debug.Log("Initialte conversation.");
 			xmlDocument = new XmlDocument();//新建一个XML“编辑器”  
 			string data = Resources.Load(@XmlPath).ToString();
 			xmlDocument.LoadXml(data);//载入这个xml  

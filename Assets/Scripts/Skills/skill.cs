@@ -8,6 +8,7 @@ public class skill : MonoBehaviour {
     public static skill s1;
     public bool isActive;
     public float lastTime;
+    public float height;//特效的高度，要根据不同特效调才好放到地上
 
     // Use this for initialization
     void Awake () {
@@ -15,6 +16,7 @@ public class skill : MonoBehaviour {
         s1 = this;
         lastTime = 5.0f;
         isActive = false;
+        height = 3.0f;
 	}
 
     void Start()
@@ -32,11 +34,11 @@ public class skill : MonoBehaviour {
     {
         if(isActive)
         {
-   //         GameObject hit = other.gameObject;
-			//Monster monsters = hit.GetComponent<Monster>();
-            if (other.gameObject.GetComponent<Monster>() != null)
+            GameObject hit = other.gameObject;
+			Monster monsters = hit.GetComponent<Monster>();
+            if (monsters != null)
             {
-                StartCoroutine(attack(other.gameObject.GetComponent<Monster>()));
+                StartCoroutine(attack(monsters));
             }
 			//Debug.Log("Skill hit");
         }
@@ -45,9 +47,11 @@ public class skill : MonoBehaviour {
     // 接触持续中
     void OnTriggerExit(Collider other)
     {
-        if (other.gameObject.GetComponent<Monster>() != null)
+        GameObject hit = other.gameObject;
+        Monster monsters = hit.GetComponent<Monster>();
+        if (monsters != null)
         {
-            StopCoroutine(attack(other.gameObject.GetComponent<Monster>()));
+            StopCoroutine(attack(monsters));
         }
     }
 
@@ -60,7 +64,7 @@ public class skill : MonoBehaviour {
     {
         while(lastTime > 0)
         {
-            yield return new WaitForSeconds(2);
+            yield return new WaitForSeconds(1);
             lastTime--;
         }
         if (lastTime <= 0)
@@ -72,8 +76,7 @@ public class skill : MonoBehaviour {
         while(monsters.health>0)
         {
             monsters.applyDamage(power);
-            Debug.Log("圆形区域技能扣血");
-            Debug.Log(monsters.name);
+            //Debug.Log("圆形区域技能扣血");
             yield return new WaitForSeconds(1);
         }
 
