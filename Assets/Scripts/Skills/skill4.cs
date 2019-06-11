@@ -8,6 +8,7 @@ public class skill4 : MonoBehaviour {
     public static skill4 s1;
     public bool isActive;
     //public float lastTime;
+    public float buffDamage;
     public float buff_lastTime;//buff的持续时间
     public float height;//特效的高度，要根据不同特效调才好放到地上
 
@@ -36,20 +37,19 @@ public class skill4 : MonoBehaviour {
     //怪进入触发器
     void OnTriggerEnter(Collider other)
     {
-        if (other.tag=="player")
+        if (other.gameObject.name=="Player")
         {
             
             GameObject hit = other.gameObject;
             Player player = hit.GetComponent<Player>();
-
-            player.setAttackCoeffi(5);
+            Debug.Log("chi");
+            player.changeDamage(buffDamage);
             Destroy(this.gameObject);
             //在buff到时间之后buff消失
             StartCoroutine(buff_stay(player));
 
         }
     }
-
 
 
     public void setActive()

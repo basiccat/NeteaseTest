@@ -31,7 +31,7 @@ public class FuAction : MonoBehaviour, IPointerDownHandler, IPointerEnterHandler
 	void Update () {
         if (!GameManager._instance.isPaused)
         {
-            if (transform.position.x > FuManager._instance.left)
+            if (transform.position.x >FuManager._instance.transform.position.x+ FuManager._instance.left)
             {
                 //Debug.Log(transform.position.x);
                 transform.Translate(Vector3.left * Time.deltaTime * speed, Space.World);
@@ -59,7 +59,7 @@ public class FuAction : MonoBehaviour, IPointerDownHandler, IPointerEnterHandler
             //Debug.Log(speed);
             float fuck = FuManager._instance.skillsNumToSave - FuManager._instance.currentSkillsNum;
             //Debug.Log(speed);
-            FuManager._instance.Invoke("activateSkills", fuck * 3.0f);
+            FuManager._instance.Invoke("activateSkills", fuck * FuManager._instance.skillGTime);
         }
         
     }

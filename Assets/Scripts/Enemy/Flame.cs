@@ -31,7 +31,7 @@ public class Flame : MonoBehaviour {
             damageApplyed = true;
             FramesTowait = frameBetweenDamage;
             //Debug.Log();
-            if(other.tag == "player")
+            if(other.name == "Player")
             {
                 Player player = other.GetComponent<Player>();
                 //Debug.Log(player.transform.position);

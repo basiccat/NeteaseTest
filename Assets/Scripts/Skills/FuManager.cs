@@ -6,6 +6,7 @@ public class FuManager : MonoBehaviour {
     public static FuManager _instance;
     public GameObject[] skills;
     public float left;
+    public float skillGTime;
     //private float speed = 1;
 
     public int currentSkillsNum = 0;   
@@ -20,7 +21,7 @@ public class FuManager : MonoBehaviour {
     // Use this for initialization
     void Start () {
         //new WaitForSeconds(10);
-        InvokeRepeating("activateSkills", 3.0f, 3.0f);
+        InvokeRepeating("activateSkills", skillGTime, skillGTime);
         //activateSkills();
     }
     private void activateSkills()

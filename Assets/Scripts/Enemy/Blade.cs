@@ -24,7 +24,7 @@ public class Blade : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-
+        Debug.Log(other.name);
         if (other.name == "Player")
         {
             //与玩家接触            

@@ -575,9 +575,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 58081d0f711104745b585141d5daee40, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  power: 15
+  power: 8
   isActive: 0
-  lastTime: 5
+  lastTime: 6
+  cd: 2
   height: 0
 --- !u!114 &114416351331939522
 MonoBehaviour:

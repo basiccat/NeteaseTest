@@ -8,6 +8,7 @@ public class skill : MonoBehaviour {
     public static skill s1;
     public bool isActive;
     public float lastTime;
+    public float cd;
     public float height;//特效的高度，要根据不同特效调才好放到地上
 
     // Use this for initialization
@@ -77,7 +78,7 @@ public class skill : MonoBehaviour {
         {
             monsters.applyDamage(power);
             //Debug.Log("圆形区域技能扣血");
-            yield return new WaitForSeconds(1);
+            yield return new WaitForSeconds(cd);
         }
 
     }

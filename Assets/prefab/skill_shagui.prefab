@@ -118,6 +118,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   power: 0
   isActive: 0
+  buffDamage: 5
   buff_lastTime: 0
   height: 0
 --- !u!136 &136702639765461612

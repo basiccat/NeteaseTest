@@ -240,9 +240,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 37667a0b838be564298e2fb4a51a5151, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  power: 0
+  power: 8
   isActive: 1
-  lastTime: 0
+  lastTime: 5
   height: 0
 --- !u!136 &136879256163340978
 CapsuleCollider:

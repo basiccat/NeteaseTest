@@ -21,10 +21,13 @@ public class normalAttack : MonoBehaviour
     {
         isAttacking = false;
         if (Input.GetMouseButtonDown(1))
-            isAttacking = true;
-        if (Input.GetMouseButtonUp(1))
         {
             countAttact = 0;
+            isAttacking = true;
+        }
+        if (Input.GetMouseButtonUp(1))
+        {
+            
             isAttacking = false;
         }
 
@@ -35,7 +38,7 @@ public class normalAttack : MonoBehaviour
         {
             other.gameObject.GetComponent<Monster>().applyDamage(playerDamage);
             countAttact++;
-            print("count  " + countAttact);
+            //print("count  " + countAttact);
             isAttacking = false;
         }
     }

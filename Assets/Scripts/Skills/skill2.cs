@@ -13,7 +13,7 @@ public class skill2 : MonoBehaviour {
     // Use this for initialization
     void Awake()
     {
-        power = 1;
+        
         s1 = this;
         lastTime = 5.0f;
         isActive = false;

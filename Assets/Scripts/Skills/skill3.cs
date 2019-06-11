@@ -68,7 +68,15 @@ public class skill3 : MonoBehaviour {
             lastTime--;
         }
         if (lastTime <= 0)
+        {
+            GameObject[] Monster =GameObject.FindGameObjectsWithTag("Monster");
+            foreach (GameObject monster in Monster){
+                monster.GetComponent<Monster>().CanMove();
+            }
             Destroy(this.gameObject);
+        }
+
+            
     }
 
     IEnumerator attack(Monster monsters)
@@ -78,6 +86,7 @@ public class skill3 : MonoBehaviour {
             
             //定身效果
             Debug.Log("定身");
+            monsters.CantMove();
             yield return new WaitForSeconds(1);
         }
 
