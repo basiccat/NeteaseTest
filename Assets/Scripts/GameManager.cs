@@ -108,7 +108,7 @@ public class GameManager : MonoBehaviour {
         isPaused = true;
         myMenu.SetActive(true);
         Time.timeScale = 0;
-        Cursor.visible = true;
+        //Cursor.visible = true;
     }
 	// Update is called once per frame
 	private void Update () {
@@ -127,7 +127,7 @@ public class GameManager : MonoBehaviour {
         isPaused = false;
         myMenu.SetActive(false);
         //Time.timeScale = 0;
-        Cursor.visible = false;
+        //Cursor.visible = false;
     }
     public void continueGame()
     {

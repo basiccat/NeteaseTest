@@ -125,10 +125,10 @@ public class Player : MonoBehaviour
             if (health <= 0.0f)
             {
             //Debug.Log("aaaa");
-            playerState = state.dead;
+                playerState = state.dead;
                 animator.SetInteger("state", 4);
                 GameManager._instance.isPaused = true;
-                //GameManager._instance.GameOver.SetActive(true);
+                GameManager._instance.GameOver.SetActive(true);
                 //new WaitForSeconds(4);
                 //Time.timeScale = 0;
             }
